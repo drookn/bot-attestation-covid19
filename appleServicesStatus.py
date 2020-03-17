@@ -3,7 +3,7 @@ import os
 import requests
 import time
 import telegram
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler, PicklePersistence
 from fpdf import FPDF
 import PyPDF2
 from reportlab.pdfgen import canvas
@@ -165,8 +165,10 @@ if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                         level=logging.INFO)
     logger = logging.getLogger(__name__)
+
+    pp = PicklePersistence(filename='conversationbot')
+    updater = Updater(TOKEN, persistence=pp, use_context=True)
     # Set up the Updater
-    updater = Updater(TOKEN)
     dp = updater.dispatcher
     # Add handlers
     dp.add_handler(CommandHandler('sendPdf', sendPdf))
