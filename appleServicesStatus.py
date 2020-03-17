@@ -39,13 +39,17 @@ def status(bot,update):
 
 def sendPdf(bot,update):
 
+    #Create PDF with user data 
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size=12)
     pdf.cell(100, 10, txt="Thomas Droin De la vera", ln=1, align="L")
     pdf.cell(100, 10, txt="Tom DRN", ln=50, align="L")
     pdf.cell(100, 10, txt="06/08/1991", ln=1, align="L")
+    pdf.cell(100, 10, txt="Address", ln=1, align="L")
     pdf.output("simple_demo.pdf")
+
+
 
     minutesFile = open('Ressources/certificate_of_travel_exemption.pdf', 'rb')
     pdfReader = PyPDF2.PdfFileReader(minutesFile)
@@ -68,7 +72,7 @@ def sendPdf(bot,update):
 
     
 def start(bot, update):
-    update.effective_message.reply_text("Hello I am an  Covid19 Bot 👨🏻‍💻,\n send \'/status\' to get last Apple Service Status")
+    update.effective_message.reply_text("Salut je suis Covid19 Bot 👨🏻‍💻,\n send \'/status\' to get last Apple Service Status")
 
 def error(bot, update, error):
     logger.warning('Update "%s" caused error "%s"', update, error)
