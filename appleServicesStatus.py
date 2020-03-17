@@ -42,7 +42,8 @@ def sendPdf(bot,update):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size=12)
-    pdf.cell(77, 120, txt="Thomas Droin", ln=1, align="L")
+    pdf.cell(100, 120, txt="Thomas Droin De la vera", ln=1, align="L")
+    pdf.cell(100, 120, txt="Tom DRN", ln=1, align="L")
     pdf.cell(77, 135, txt="06/08/1991", ln=1, align="L")
     pdf.output("simple_demo.pdf")
 
