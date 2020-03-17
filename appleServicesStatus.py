@@ -23,7 +23,9 @@ def name(update, context):
     context.user_data['name'] = text
     #user_data = update.user_data
     #user_data[name] = update.message.text
-    update.send_message(chat_id=context.effective_chat.id, text="Quelle est ta date de naissance ?")
+    #update.send_message(chat_id=context.effective_chat.id, text="Quelle est ta date de naissance ?")
+    update.message.reply_text("Quelle est ta date de naissance ?")
+
 
     return BIRTH_DATE
 
