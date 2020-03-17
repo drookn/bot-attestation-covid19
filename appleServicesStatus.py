@@ -6,6 +6,8 @@ import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler
 from fpdf import FPDF
 import PyPDF2
+from reportlab.pdfgen import canvas
+
 
 class Service:
   def __init__(self, name, status):
@@ -49,13 +51,16 @@ def sendPdf(bot,update):
     pdf.cell(100, 10, txt="Address", ln=1, align="L")
     pdf.output("simple_demo.pdf")
 
+    c = canvas.Canvas("hello.pdf")
+    c.drawString(100,750,"Welcome to Reportlab!")
+    c.save()
 
 
     minutesFile = open('Ressources/certificate_of_travel_exemption.pdf', 'rb')
     pdfReader = PyPDF2.PdfFileReader(minutesFile)
     minutesFirstPage = pdfReader.getPage(0)
 
-    pdfWatermarkReader = PyPDF2.PdfFileReader(open('simple_demo.pdf', 'rb'))
+    pdfWatermarkReader = PyPDF2.PdfFileReader(open('hello.pdf', 'rb'))
     
     minutesFirstPage.mergePage(pdfWatermarkReader.getPage(0))
     pdfWriter = PyPDF2.PdfFileWriter()
