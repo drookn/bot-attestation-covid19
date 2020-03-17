@@ -68,11 +68,11 @@ def sendPdf(bot,update):
 
     logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/24px-Check_mark_9x9.svg.png')
 
-    c.drawImage(logo, 55, 230, mask='auto')
-    c.drawImage(logo, 50, 276, mask='auto')
-    c.drawImage(logo, 45, 308, mask='auto')
-    c.drawImage(logo, 48, 353, mask='auto')
-    c.drawImage(logo, 35, 428, mask='auto')
+    c.drawImage(logo, 45, 220, mask='auto')
+    c.drawImage(logo, 45, 266, mask='auto')
+    c.drawImage(logo, 45, 298, mask='auto')
+    c.drawImage(logo, 45, 343, mask='auto')
+    c.drawImage(logo, 45, 418, mask='auto')
     c.save()
 
 
