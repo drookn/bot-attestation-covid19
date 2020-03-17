@@ -97,15 +97,15 @@ def reason(update, context):
     logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/24px-Check_mark_9x9.svg.png')
 
     if text == "👩‍🔧 Je vais bosser":
-        c.drawImage(logo, 45, 225, mask='auto')
+      c.drawImage(logo, 45, 423, mask='auto')
     elif text == "🍝 J’ai la dalle !":
-        c.drawImage(logo, 45, 271, mask='auto')
+      c.drawImage(logo, 45, 348, mask='auto')
     elif text == "💊 Je me soigne":
-        c.drawImage(logo, 45, 303, mask='auto')
+      c.drawImage(logo, 45, 271, mask='auto')
     elif text == "'👵 Je vais voir mamie'":
-        c.drawImage(logo, 45, 348, mask='auto')
+      c.drawImage(logo, 45, 303, mask='auto')
     else:
-        c.drawImage(logo, 45, 423, mask='auto')
+      c.drawImage(logo, 45, 225, mask='auto')
 
     #c.drawImage(logo, 45, 225, mask='auto')
     #c.drawImage(logo, 45, 271, mask='auto')
