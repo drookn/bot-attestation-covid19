@@ -35,6 +35,14 @@ def status(bot,update):
     bot.send_document(chat_id=update.effective_chat.id, document=open('Ressources/certificate_of_travel_exemption.pdf', 'rb'))
     #update.effective_message.reply_text(getAppleServiceStatus())
 
+def sendPdf(bot,update):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+    pdf.cell(200, 10, txt="hello it's thom", ln=1, align="C")
+    pdf.output("simple_demo.pdf")
+    bot.send_document(chat_id=update.effective_chat.id, document=open('simple_demo.pdf', 'rb'))
+
     
 def start(bot, update):
     update.effective_message.reply_text("Hello I am an  Covid19 Bot 👨🏻‍💻,\n send \'/status\' to get last Apple Service Status")
@@ -57,6 +65,7 @@ if __name__ == "__main__":
     dp.add_handler(CommandHandler('start', start))
     dp.add_handler(CommandHandler('help', help))
     dp.add_handler(CommandHandler('status', status))
+    dp.add_handler(CommandHandler('sendPdf', sendPdf))
     dp.add_handler(MessageHandler(Filters.text, start))
     dp.add_error_handler(error)
     # Start the webhook
