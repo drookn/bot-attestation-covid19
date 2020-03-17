@@ -3,14 +3,14 @@ import os
 import requests
 import time
 import telegram
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler, PicklePersistence
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler, PicklePersistence, ReplyKeyboardMarkup, KeyboardButton
 from fpdf import FPDF
 import PyPDF2
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
 import datetime
 
-NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, SIGNATURE = range(6)
+NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE = range(7)
 
 def create(update, context):
     update.message.reply_text("Comment t’appelles tu ?")
@@ -59,8 +59,24 @@ def postalCode(update, context):
 def city(update, context):
     text =  update.message.text
     context.user_data['city'] = text
-    #update.send_message(chat_id=context.effective_chat.id, text="Thanks")
+    custom_keyboard = [['👩‍🔧 Je vais bosser ', '🍝 J’ai la dalle !'], 
+                   ['💊 Je me soigne', '🏌️‍♂️ Petit sport, ça s’entretient un corps pareil']]
+    reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
 
+    TOKEN = os.getenv("TOKEN")
+    bot = telegram.Bot(TOKEN)
+
+    bot.send_message(chat_id=update.effective_chat.id, 
+                 text="Custom Keyboard Test", 
+                 reply_markup=reply_markup)
+    #update.send_message(chat_id=context.effective_chat.id, text="Thanks")
+    return REASON
+
+
+def reason(update, context):
+    text =  update.message.text
+    context.user_data['reason'] = text
+    #update.send_message(chat_id=context.effective_chat.id, text="Thanks")
 
     c = canvas.Canvas("hello.pdf")
     c.drawString(130,625,context.user_data['name'])
@@ -78,11 +94,20 @@ def city(update, context):
 
     logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/24px-Check_mark_9x9.svg.png')
 
-    c.drawImage(logo, 45, 225, mask='auto')
-    c.drawImage(logo, 45, 271, mask='auto')
-    c.drawImage(logo, 45, 303, mask='auto')
-    c.drawImage(logo, 45, 348, mask='auto')
-    c.drawImage(logo, 45, 423, mask='auto')
+    if text == "👩‍🔧 Je vais bosser":
+        c.drawImage(logo, 45, 225, mask='auto')
+    elif text == "🍝 J’ai la dalle !":
+        c.drawImage(logo, 45, 271, mask='auto')
+    elif text == "💊 Je me soigne":
+        c.drawImage(logo, 45, 303, mask='auto')
+    else:
+        c.drawImage(logo, 45, 348, mask='auto')
+
+    #c.drawImage(logo, 45, 225, mask='auto')
+    #c.drawImage(logo, 45, 271, mask='auto')
+    #c.drawImage(logo, 45, 303, mask='auto')
+    #c.drawImage(logo, 45, 348, mask='auto')
+    #c.drawImage(logo, 45, 423, mask='auto')
     c.save()
 
 
@@ -102,14 +127,11 @@ def city(update, context):
     pdfWriter.write(resultPdfFile)
     minutesFile.close()
     resultPdfFile.close()
-    
+
     TOKEN = os.getenv("TOKEN")
     bot = telegram.Bot(TOKEN)
 
     bot.send_document(chat_id=update.effective_chat.id, document=open('watermarkedCover.pdf', 'rb'))
-
-
-
     return ConversationHandler.END
 
 def signature(update, context):
