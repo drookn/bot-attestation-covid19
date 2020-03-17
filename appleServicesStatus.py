@@ -42,8 +42,8 @@ def sendPdf(bot,update):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size=12)
-    pdf.cell(500, 10, txt="hello it's thom", ln=1, align="C")
-    pdf.cell(200, 200, txt="hello it's thom 2", ln=1, align="C")
+    pdf.cell(110, 80, txt="Thomas Droin", ln=1, align="C")
+    pdf.cell(110, 115, txt="06/08/1991", ln=1, align="C")
     pdf.output("simple_demo.pdf")
 
     minutesFile = open('Ressources/certificate_of_travel_exemption.pdf', 'rb')
