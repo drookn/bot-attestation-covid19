@@ -42,13 +42,13 @@ def city(bot,update):
     bot.send_message(chat_id=update.effective_chat.id, text="Thanks ")
 
 def cancel(bot,update):
-    print("cancel")
-
+    bot.send_message(chat_id=update.effective_chat.id, text="Cancel")
     return ConversationHandler.END
 
 def status(bot,update):
     bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
     bot.send_document(chat_id=update.effective_chat.id, document=open('Ressources/certificate_of_travel_exemption.pdf', 'rb'))
+    #update.effective_message.reply_text(getAppleServiceStatus())
 
 def sendPdf(bot,update):
     c = canvas.Canvas("hello.pdf")
@@ -134,7 +134,7 @@ if __name__ == "__main__":
 
         },
 
-        fallbacks = [MessageHandler(Filters.regex('^Cancel$'),cancel]
+        fallbacks = [MessageHandler(Filters.regex('^Done$'), cancel)]
     )
     dp.add_handler(create_conversation_handler)
    
