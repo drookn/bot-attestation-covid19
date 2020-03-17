@@ -57,9 +57,9 @@ def postalCode(update, context):
     return CITY
 
 def city(update, context):
-    context.user_data[city] = update.message.text
-    update.send_message(chat_id=context.effective_chat.id, text="Thanks")
-
+    text =  update.message.text
+    context.user_data['city'] = text
+    #update.send_message(chat_id=context.effective_chat.id, text="Thanks")
 
 
     c = canvas.Canvas("hello.pdf")
