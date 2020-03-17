@@ -19,7 +19,7 @@ def create(bot,update):
 
 def name(update, context):
     text = update.message.text.lower()
-    context.user_data['name'] = context.message.text
+    context.user_data['name'] = text
     #user_data = update.user_data
     #user_data[name] = update.message.text
     update.send_message(chat_id=context.effective_chat.id, text="Quelle est ta date de naissance ?")
@@ -33,7 +33,7 @@ def birthDate(update, context):
     return STREET
 
 def street(update, context):
-    context.user_data[street] = context.message.text
+    context.user_data[street] = update.message.text
     update.send_message(chat_id=context.effective_chat.id, text="Ton code postal ? 🔢")
 
     return POSTAL_CODE
@@ -45,7 +45,7 @@ def postalCode(update, context):
     return CITY
 
 def city(update, context):
-    context.user_data[city] = context.message.text
+    context.user_data[city] = update.message.text
     update.send_message(chat_id=context.effective_chat.id, text="Thanks")
 
 
