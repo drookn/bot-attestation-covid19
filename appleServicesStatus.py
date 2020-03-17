@@ -18,48 +18,44 @@ def create(bot,update):
     return NAME
 
 def name(update, context):
-    update.send_message(chat_id=context.effective_chat.id, text="Quelle est ta date de naissance ?")
     text = update.message.text.lower()
-    context.user_data['choice'] = text
+    context.user_data['name'] = context.message.text
     #user_data = update.user_data
     #user_data[name] = update.message.text
+    update.send_message(chat_id=context.effective_chat.id, text="Quelle est ta date de naissance ?")
 
     return BIRTH_DATE
 
-def birthDate(bot,update):
-    user_data = update.user_data
-    user_data[birthdate] = update.message.text
-    bot.send_message(chat_id=update.effective_chat.id, text="Le n° et le nom de ta rue ? ")
+def birthDate(update, context):
+    context.user_data[birthdate] = context.message.text
+    bot.send_message(chat_id=context.effective_chat.id, text="Le n° et le nom de ta rue ? ")
 
     return STREET
 
-def street(bot,update):
-    user_data = update.user_data
-    user_data[street] = update.message.text
-    bot.send_message(chat_id=update.effective_chat.id, text="Ton code postal ? 🔢")
+def street(update, context):
+    context.user_data[street] = context.message.text
+    update.send_message(chat_id=context.effective_chat.id, text="Ton code postal ? 🔢")
 
     return POSTAL_CODE
 
-def postalCode(bot,update):
-    user_data = update.user_data
-    user_data[postalCode] = update.message.text
-    bot.send_message(chat_id=update.effective_chat.id, text="Ta ville ?")
+def postalCode(update, context):
+    context.user_data[postalCode] = context.message.text
+    update.send_message(chat_id=context.effective_chat.id, text="Ta ville ?")
 
     return CITY
 
-def city(bot,update):
-    user_data = update.user_data
-    user_data[city] = update.message.text
-    bot.send_message(chat_id=update.effective_chat.id, text="Thanks")
+def city(update, context):
+    context.user_data[city] = context.message.text
+    update.send_message(chat_id=context.effective_chat.id, text="Thanks")
 
 
 
     c = canvas.Canvas("hello.pdf")
-    c.drawString(130,625,user_data[name])
-    c.drawString(130,595,user_data[birthdate])
-    c.drawString(130,560,user_data[street])
-    c.drawString(130,545,user_data[postal])
-    c.drawString(130,530,user_data[city])
+    c.drawString(130,625,context.user_data[name])
+    c.drawString(130,595,context.user_data[birthdate])
+    c.drawString(130,560,context.user_data[street])
+    c.drawString(130,545,context.user_data[postal])
+    c.drawString(130,530,context.user_data[city])
 
     c.drawString(373,142,user_data[city])
 
