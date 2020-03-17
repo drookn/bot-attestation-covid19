@@ -52,7 +52,9 @@ def sendPdf(bot,update):
     pdf.output("simple_demo.pdf")
 
     c = canvas.Canvas("hello.pdf")
-    c.drawString(100,750,"Welcome to Reportlab!")
+    c.drawString(120,625,"Thomas Droin De la vera")
+    c.drawString(120,600,"06/08/1991")
+    c.drawString(120,575,"9B BOULEVARD DE ROCHECHOUART 75009 PARIS")
     c.save()
 
 
