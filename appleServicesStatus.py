@@ -4,6 +4,7 @@ import requests
 import time
 import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler
+from fpdf import FPDF
 
 class Service:
   def __init__(self, name, status):
