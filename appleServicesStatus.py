@@ -8,6 +8,7 @@ from fpdf import FPDF
 import PyPDF2
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
+import datetime
 
 class Service:
   def __init__(self, name, status):
@@ -59,14 +60,19 @@ def sendPdf(bot,update):
     c.drawString(130,530,"PARIS")
 
     c.drawString(373,142,"Paris")
-    c.drawString(475,142,"16")
-    c.drawString(500,142,"03")
+
+    today = date.today()
+    c.drawString(475,142,today.strftime("%d"))
+    c.drawString(500,142,today.strftime("%m"))
 
 
     logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/24px-Check_mark_9x9.svg.png')
 
-    c.drawImage(logo, 56, 247, mask='auto')
-
+    c.drawImage(logo, 55, 230, mask='auto')
+    c.drawImage(logo, 50, 276, mask='auto')
+    c.drawImage(logo, 45, 308, mask='auto')
+    c.drawImage(logo, 48, 353, mask='auto')
+    c.drawImage(logo, 35, 428, mask='auto')
     c.save()
 
 
