@@ -5,6 +5,7 @@ import time
 import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler
 from fpdf import FPDF
+import PyPDF2
 
 class Service:
   def __init__(self, name, status):
@@ -37,12 +38,31 @@ def status(bot,update):
     #update.effective_message.reply_text(getAppleServiceStatus())
 
 def sendPdf(bot,update):
+
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size=12)
     pdf.cell(200, 10, txt="hello it's thom", ln=1, align="C")
     pdf.output("simple_demo.pdf")
-    bot.send_document(chat_id=update.effective_chat.id, document=open('simple_demo.pdf', 'rb'))
+
+    minutesFile = open('Ressources/certificate_of_travel_exemption.pdf', 'rb')
+    pdfReader = PyPDF2.PdfFileReader(minutesFile)
+    minutesFirstPage = pdfReader.getPage(0)
+
+    pdfWatermarkReader = PyPDF2.PdfFileReader(open('simple_demo.pdf', 'rb'))
+    
+    minutesFirstPage.mergePage(pdfWatermarkReader.getPage(0))
+    pdfWriter = PyPDF2.PdfFileWriter()
+    pdfWriter.addPage(minutesFirstPage)
+    for pageNum in range(1, pdfReader.numPages):
+           pageObj = pdfReader.getPage(pageNum)
+           pdfWriter.addPage(pageObj)
+    resultPdfFile = open('watermarkedCover.pdf', 'wb')
+    pdfWriter.write(resultPdfFile)
+    minutesFile.close()
+    resultPdfFile.close()
+
+    bot.send_document(chat_id=update.effective_chat.id, document=open('watermarkedCover.pdf', 'rb'))
 
     
 def start(bot, update):
