@@ -7,7 +7,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Conve
 from fpdf import FPDF
 import PyPDF2
 from reportlab.pdfgen import canvas
-
+from reportlab.lib.utils import ImageReader
 
 class Service:
   def __init__(self, name, status):
@@ -60,7 +60,13 @@ def sendPdf(bot,update):
 
     c.drawString(373,142,"Paris")
     c.drawString(475,142,"16")
-    c.drawString(498,142,"03")
+    c.drawString(500,142,"03")
+
+
+    logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/1024px-Check_mark_9x9.svg.png')
+
+    c.drawImage(logo, 56, 247, mask='auto')
+
     c.save()
 
 
