@@ -134,7 +134,7 @@ if __name__ == "__main__":
 
         },
 
-        fallbacks = [CommandHandler('cancel',cancel)]
+        fallbacks = [MessageHandler(Filters.regex('^Cancel$'),cancel]
     )
     dp.add_handler(create_conversation_handler)
    
