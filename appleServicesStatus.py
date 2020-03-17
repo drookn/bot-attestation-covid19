@@ -18,7 +18,7 @@ def create(bot,update):
     return NAME
 
 def name(update, context):
-    bot.send_message(chat_id=update.effective_chat.id, text="Quelle est ta date de naissance ?")
+    update.send_message(chat_id=context.effective_chat.id, text="Quelle est ta date de naissance ?")
     text = update.message.text.lower()
     context.user_data['choice'] = text
     #user_data = update.user_data
