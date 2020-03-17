@@ -41,22 +41,26 @@ def status(bot,update):
 
 def sendPdf(bot,update):
 
-    #Create PDF with user data 
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Arial", size=12)
-    pdf.cell(100, 10, txt="Thomas Droin De la vera", ln=1, align="L")
-    pdf.cell(100, 10, txt="Tom DRN", ln=50, align="L")
-    pdf.cell(100, 10, txt="06/08/1991", ln=1, align="L")
-    pdf.cell(100, 10, txt="Address", ln=1, align="L")
-    pdf.output("simple_demo.pdf")
+    # #Create PDF with user data 
+    # pdf = FPDF()
+    # pdf.add_page()
+    # pdf.set_font("Arial", size=12)
+    # pdf.cell(100, 10, txt="Thomas Droin De la vera", ln=1, align="L")
+    # pdf.cell(100, 10, txt="Tom DRN", ln=50, align="L")
+    # pdf.cell(100, 10, txt="06/08/1991", ln=1, align="L")
+    # pdf.cell(100, 10, txt="Address", ln=1, align="L")
+    # pdf.output("simple_demo.pdf")
 
     c = canvas.Canvas("hello.pdf")
     c.drawString(130,625,"Thomas Droin De la vera")
     c.drawString(130,595,"06/08/1991")
-    c.drawString(130,555,"9B BOULEVARD DE ROCHECHOUART")
+    c.drawString(130,560,"9B BOULEVARD DE ROCHECHOUART")
     c.drawString(130,545,"75009")
     c.drawString(130,530,"PARIS")
+
+    c.drawString(395,177,"Paris")
+    c.drawString(508,177,"03")
+    c.drawString(528,177,"03")
     c.save()
 
 
