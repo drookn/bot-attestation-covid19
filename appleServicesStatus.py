@@ -9,7 +9,7 @@ class Service:
   def __init__(self, name, status):
     self.name = name
     if status == 'available':
-      self.status  = "✅"
+      self.status  = "💎"
     else:
       self.status  = "🎚"
   def toString(self):
@@ -34,7 +34,7 @@ def status(bot,update):
     bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
     bot.send_document(chat_id=update.effective_chat.id, document=open('Ressources/certificate_of_travel_exemption.pdf', 'rb'))
     #update.effective_message.reply_text(getAppleServiceStatus())
-    
+
     
 def start(bot, update):
     update.effective_message.reply_text("Hello I am an Apple Status Developer Bot 👨🏻‍💻,\n send \'/status\' to get last Apple Service Status")
