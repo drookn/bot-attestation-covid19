@@ -63,7 +63,7 @@ def sendPdf(bot,update):
     c.drawString(500,142,"03")
 
 
-    logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/1024px-Check_mark_9x9.svg.png')
+    logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/24px-Check_mark_9x9.svg.png')
 
     c.drawImage(logo, 56, 247, mask='auto')
 
