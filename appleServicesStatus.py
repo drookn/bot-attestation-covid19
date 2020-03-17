@@ -11,7 +11,7 @@ class Service:
     if status == 'available':
       self.status  = "✅"
     else:
-      self.status  = "⚠️"
+      self.status  = "🎚"
   def toString(self):
       return self.status + ' ' + self.name
 
@@ -35,7 +35,7 @@ def status(bot,update):
     update.effective_message.reply_text(getAppleServiceStatus())
     
 def start(bot, update):
-    update.effective_message.reply_text("Hello I am an Apple Status Developer Bot 👨🏻‍💻,\n send \'/status\' to get last Apple Service Status")
+    update.effective_message.reply_text("Hello  I am an Apple Status Developer Bot 👨🏻‍💻,\n send \'/status\' to get last Apple Service Status")
 
 def error(bot, update, error):
     logger.warning('Update "%s" caused error "%s"', update, error)
