@@ -18,7 +18,7 @@ def create(bot,update):
     return NAME
 
 def name(update,context):
-    context.user_data['name'] = update.message.text
+    context.user_data['name'] = context.message.text
     #user_data = update.user_data
     #user_data[name] = update.message.text
     bot.send_message(chat_id=update.effective_chat.id, text="Quelle est ta date de naissance ?")
