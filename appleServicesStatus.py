@@ -56,7 +56,7 @@ def postalCode(update, context):
 
     return CITY
 
-def city(update, context):
+def city(bot, update, context):
     text =  update.message.text
     context.user_data['city'] = text
     #update.send_message(chat_id=context.effective_chat.id, text="Thanks")
@@ -103,7 +103,7 @@ def city(update, context):
     minutesFile.close()
     resultPdfFile.close()
 
-    update.send_document(chat_id=context.effective_chat.id, document=open('watermarkedCover.pdf', 'rb'))
+    bot.send_document(chat_id=update.effective_chat.id, document=open('watermarkedCover.pdf', 'rb'))
 
 
 
