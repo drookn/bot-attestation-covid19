@@ -103,7 +103,7 @@ def city(update, context):
     minutesFile.close()
     resultPdfFile.close()
 
-    bot.send_document(chat_id=update.effective_chat.id, document=open('watermarkedCover.pdf', 'rb'))
+    update.send_document(chat_id=context.effective_chat.id, document=open('watermarkedCover.pdf', 'rb'))
 
 
 
