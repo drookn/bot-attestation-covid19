@@ -30,20 +30,29 @@ def name(update, context):
     return BIRTH_DATE
 
 def birthDate(update, context):
-    context.user_data[birthdate] = context.message.text
-    bot.send_message(chat_id=context.effective_chat.id, text="Le n° et le nom de ta rue ? ")
+    text =  update.message.text
+    context.user_data['birthdate'] = text
+    update.message.reply_text("Le n° et le nom de ta rue ?")
 
     return STREET
 
 def street(update, context):
-    context.user_data[street] = update.message.text
-    update.send_message(chat_id=context.effective_chat.id, text="Ton code postal ? 🔢")
+    text =  update.message.text
+    context.user_data['street'] = text
+    update.message.reply_text("Ton code postal ? 🔢")
+
+    #context.user_data[street] = update.message.text
+    #update.send_message(chat_id=context.effective_chat.id, text="Ton code postal ? 🔢")
 
     return POSTAL_CODE
 
 def postalCode(update, context):
-    context.user_data[postalCode] = context.message.text
-    update.send_message(chat_id=context.effective_chat.id, text="Ta ville ?")
+    text =  update.message.text
+    context.user_data['postalCode'] = text
+    update.message.reply_text("Ta ville ? 🔢")
+
+    #context.user_data[postalCode] = context.message.text
+    #update.send_message(chat_id=context.effective_chat.id, text="Ta ville ?")
 
     return CITY
 
@@ -54,11 +63,11 @@ def city(update, context):
 
 
     c = canvas.Canvas("hello.pdf")
-    c.drawString(130,625,context.user_data[name])
-    c.drawString(130,595,context.user_data[birthdate])
-    c.drawString(130,560,context.user_data[street])
-    c.drawString(130,545,context.user_data[postal])
-    c.drawString(130,530,context.user_data[city])
+    c.drawString(130,625,context.user_data['name'])
+    c.drawString(130,595,context.user_data['birthdate'])
+    c.drawString(130,560,context.user_data['street'])
+    c.drawString(130,545,context.user_data['postal'])
+    c.drawString(130,530,context.user_data['city'])
 
     c.drawString(373,142,user_data[city])
 
