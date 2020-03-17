@@ -18,7 +18,7 @@ def create(bot,update):
     return NAME
 
 def name(update, context):
-    text = update.message.text.lower()
+    text = context.message.text
     context.user_data['name'] = text
     #user_data = update.user_data
     #user_data[name] = update.message.text
