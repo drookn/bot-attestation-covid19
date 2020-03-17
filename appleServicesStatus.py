@@ -138,6 +138,9 @@ def reason(update, context):
     bot.send_document(chat_id=update.effective_chat.id, document=open('watermarkedCover.pdf', 'rb'))
     return ConversationHandler.END
 
+def bomdia(update, context):
+    return ConversationHandler.END
+
 def signature(update, context):
     return ConversationHandler.END
 
@@ -218,9 +221,10 @@ if __name__ == "__main__":
     dp.add_handler(CommandHandler('sendPdf', sendPdf))
     dp.add_error_handler(error)
     dp.add_handler(CommandHandler("help",start))
+    dp.add_handler(CommandHandler("resend",city))
 
     create_conversation_handler = ConversationHandler(
-        entry_points = [CommandHandler('create',create)],
+        entry_points = [CommandHandler('create',create), CommandHandler('city',city)],
 
         states = {
 
