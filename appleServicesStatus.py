@@ -61,14 +61,15 @@ def city(update, context):
     text =  update.message.text
     context.user_data['city'] = text
     custom_keyboard = [['👩‍🔧 Je vais bosser ', '🍝 J’ai la dalle !'], 
-                   ['💊 Je me soigne', '🏌️‍♂️ Petit sport, ça s’entretient un corps pareil']]
+                   ['💊 Je me soigne', '👵 Je vais voir mamie',
+ '🏌️‍♂️ Petit sport, ça s’entretient un corps pareil']]
     reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
 
     TOKEN = os.getenv("TOKEN")
     bot = telegram.Bot(TOKEN)
 
     bot.send_message(chat_id=update.effective_chat.id, 
-                 text="Custom Keyboard Test", 
+                 text="Choisit ta raison parmis ces 4 propositions", 
                  reply_markup=reply_markup)
     #update.send_message(chat_id=context.effective_chat.id, text="Thanks")
     return REASON
@@ -101,8 +102,10 @@ def reason(update, context):
         c.drawImage(logo, 45, 271, mask='auto')
     elif text == "💊 Je me soigne":
         c.drawImage(logo, 45, 303, mask='auto')
-    else:
+    elif text == "'👵 Je vais voir mamie'":
         c.drawImage(logo, 45, 348, mask='auto')
+    else:
+        c.drawImage(logo, 45, 423, mask='auto')
 
     #c.drawImage(logo, 45, 225, mask='auto')
     #c.drawImage(logo, 45, 271, mask='auto')
