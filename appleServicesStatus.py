@@ -42,7 +42,10 @@ def postalCode(bot,update):
 def city(bot,update):
     bot.send_message(chat_id=update.effective_chat.id, text="Thanks ")
 
-
+def cancel(bot,update):
+    print("cancel")
+    return ConversationHandler.END
+    
 def status(bot,update):
     bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
     bot.send_document(chat_id=update.effective_chat.id, document=open('Ressources/certificate_of_travel_exemption.pdf', 'rb'))
