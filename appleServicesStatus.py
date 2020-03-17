@@ -37,7 +37,7 @@ def status(bot,update):
 
     
 def start(bot, update):
-    update.effective_message.reply_text("Hello I am an Apple Status Developer Bot 👨🏻‍💻,\n send \'/status\' to get last Apple Service Status")
+    update.effective_message.reply_text("Hello I am an Covid19 Bot 👨🏻‍💻,\n send \'/status\' to get last Apple Service Status")
 
 def error(bot, update, error):
     logger.warning('Update "%s" caused error "%s"', update, error)
