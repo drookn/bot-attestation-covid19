@@ -66,7 +66,7 @@ def city(update, context):
     c.drawString(130,625,context.user_data['name'])
     c.drawString(130,595,context.user_data['birthdate'])
     c.drawString(130,560,context.user_data['street'])
-    c.drawString(130,545,context.user_data['postal'])
+    c.drawString(130,545,context.user_data['postalCode'])
     c.drawString(130,530,context.user_data['city'])
 
     c.drawString(373,142,user_data[city])
