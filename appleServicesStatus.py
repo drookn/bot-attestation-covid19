@@ -19,7 +19,7 @@ def create(update, context):
     return NAME
 
 def name(update, context):
-    text = context.message.text
+    text =  update.message.text
     context.user_data['name'] = text
     #user_data = update.user_data
     #user_data[name] = update.message.text
