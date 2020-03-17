@@ -9,31 +9,39 @@ import PyPDF2
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
 import datetime
+from DBHelper import DBHelper
 
-class Service:
-  def __init__(self, name, status):
-    self.name = name
-    if status == 'available':
-      self.status  = "💎"
-    else:
-      self.status  = "🎚"
-  def toString(self):
-      return self.status + ' ' + self.name
+#db = DBHelper()
+NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY = range(5)
 
-def getAppleServiceStatusData():
-    ship_api_url = "https://app-stat-api.herokuapp.com/us/services.json"
-    request_data = requests.get(ship_api_url)
-    return request_data.json()['services']
+def create(bot,update):
+    bot.send_message(chat_id=update.effective_chat.id, text="Comment t’appelles tu ?")
 
-def getAppleServiceStatus():
-    allService = ""
-    dictService = getAppleServiceStatusData()
-    for service in dictService:
-      name = service['title']
-      status = service['status']
-      serviceObject = Service(service['title'], service['status'])
-      allService = allService + '\n' + serviceObject.toString()
-    return allService
+    return NAME
+
+def name(bot,update):
+
+    bot.send_message(chat_id=update.effective_chat.id, text="Quelle est ta date de naissance ?")
+
+    return BIRTH_DATE
+
+def birthDate(bot,update):
+    bot.send_message(chat_id=update.effective_chat.id, text="Le n° et le nom de ta rue ? ")
+
+    return STREET
+
+def street(bot,update):
+    bot.send_message(chat_id=update.effective_chat.id, text="Ton code postal ? 🔢")
+
+    return POSTAL_CODE
+
+def postalCode(bot,update):
+    bot.send_message(chat_id=update.effective_chat.id, text="Ta ville ?  ")
+    return CITY
+
+def city(bot,update):
+    bot.send_message(chat_id=update.effective_chat.id, text="Thanks ")
+
 
 def status(bot,update):
     bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
@@ -103,12 +111,31 @@ if __name__ == "__main__":
     updater = Updater(TOKEN)
     dp = updater.dispatcher
     # Add handlers
-    dp.add_handler(CommandHandler('start', start))
-    dp.add_handler(CommandHandler('help', help))
-    dp.add_handler(CommandHandler('status', status))
     dp.add_handler(CommandHandler('sendPdf', sendPdf))
-    dp.add_handler(MessageHandler(Filters.text, start))
     dp.add_error_handler(error)
+    dp.add_handler(CommandHandler("help",start))
+
+    create_conversation_handler = ConversationHandler(
+        entry_points = [CommandHandler('create',create)],
+
+        states = {
+
+            NAME: [MessageHandler(Filters.text, name)],
+
+            BIRTH_DATE: [MessageHandler(Filters.text, birthDate)],
+
+            STREET: [MessageHandler(Filters.text, street)],
+
+            POSTAL_CODE: [MessageHandler(Filters.text, postalCode)],
+
+            CITY: [MessageHandler(Filters.text, city)]
+
+        },
+
+        fallbacks = [CommandHandler('cancel',cancel)]
+    )
+    dp.add_handler(create_conversation_handler)
+   
     # Start the webhook
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
