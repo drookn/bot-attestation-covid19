@@ -231,6 +231,8 @@ if __name__ == "__main__":
 
             CITY: [MessageHandler(Filters.text, city)],
 
+            REASON: [MessageHandler(Filters.text, reason)],
+
             SIGNATURE: [MessageHandler(Filters.text, signature)]
 
         },
