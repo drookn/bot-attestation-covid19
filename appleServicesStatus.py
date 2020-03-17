@@ -58,9 +58,9 @@ def sendPdf(bot,update):
     c.drawString(130,545,"75009")
     c.drawString(130,530,"PARIS")
 
-    c.drawString(373,150,"Paris")
-    c.drawString(500,155,"03")
-    c.drawString(523,145,"03")
+    c.drawString(373,135,"Paris")
+    c.drawString(470,135,"16")
+    c.drawString(490,135,"03")
     c.save()
 
 
