@@ -14,7 +14,7 @@ import datetime
 NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE = range(7)
 
 def create(update, context):
-    update.message.reply_text("Comment t’appelles tu ?")
+    update.message.reply_text("Nom et prénom ?")
     #bot.send_message(chat_id=update.effective_chat.id, text="Comment t’appelles tu ?")
 
     return NAME
@@ -25,7 +25,7 @@ def name(update, context):
     #user_data = update.user_data
     #user_data[name] = update.message.text
     #update.send_message(chat_id=context.effective_chat.id, text="Quelle est ta date de naissance ?")
-    update.message.reply_text("Quelle est ta date de naissance ?")
+    update.message.reply_text("Date de naissance ? (23/11/1994)")
 
 
     return BIRTH_DATE
@@ -33,14 +33,14 @@ def name(update, context):
 def birthDate(update, context):
     text =  update.message.text
     context.user_data['birthdate'] = text
-    update.message.reply_text("Le n° et le nom de ta rue ?")
+    update.message.reply_text("N° et Nom de la rue ? (12 rue du virus)")
 
     return STREET
 
 def street(update, context):
     text =  update.message.text
     context.user_data['street'] = text
-    update.message.reply_text("Ton code postal ? 🔢")
+    update.message.reply_text("Code postal ?")
 
     #context.user_data[street] = update.message.text
     #update.send_message(chat_id=context.effective_chat.id, text="Ton code postal ? 🔢")
@@ -50,7 +50,7 @@ def street(update, context):
 def postalCode(update, context):
     text =  update.message.text
     context.user_data['postalCode'] = text
-    update.message.reply_text("Ta ville ? 🔢")
+    update.message.reply_text("Ville ?")
 
     #context.user_data[postalCode] = context.message.text
     #update.send_message(chat_id=context.effective_chat.id, text="Ta ville ?")
@@ -69,7 +69,23 @@ def city(update, context):
     bot = telegram.Bot(TOKEN)
 
     bot.send_message(chat_id=update.effective_chat.id, 
-                 text="Choisit ta raison parmis ces 4 propositions", 
+                 text="Choisit ta raison parmis ces 5 propositions:", 
+                 reply_markup=reply_markup)
+    #update.send_message(chat_id=context.effective_chat.id, text="Thanks")
+    return REASON
+
+
+def city2(update, context):
+    custom_keyboard = [['👩‍🔧 Je vais bosser ', '🍝 J’ai la dalle !'], 
+                   ['💊 Je me soigne', '👵 Je vais voir mamie',
+ '🏌️‍♂️ Petit sport, ça s’entretient un corps pareil']]
+    reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
+
+    TOKEN = os.getenv("TOKEN")
+    bot = telegram.Bot(TOKEN)
+
+    bot.send_message(chat_id=update.effective_chat.id, 
+                 text="Choisit ta raison parmis ces 5 propositions:", 
                  reply_markup=reply_markup)
     #update.send_message(chat_id=context.effective_chat.id, text="Thanks")
     return REASON
@@ -101,9 +117,9 @@ def reason(update, context):
     elif text == "🍝 J’ai la dalle !":
       c.drawImage(logo, 45, 348, mask='auto')
     elif text == "💊 Je me soigne":
-      c.drawImage(logo, 45, 271, mask='auto')
-    elif text == "'👵 Je vais voir mamie'":
       c.drawImage(logo, 45, 303, mask='auto')
+    elif text == "'👵 Je vais voir mamie'":
+      c.drawImage(logo, 45, 271, mask='auto')
     else:
       c.drawImage(logo, 45, 225, mask='auto')
 
@@ -224,7 +240,7 @@ if __name__ == "__main__":
     dp.add_handler(CommandHandler("resend",city))
 
     create_conversation_handler = ConversationHandler(
-        entry_points = [CommandHandler('create',create), CommandHandler('city',city)],
+        entry_points = [CommandHandler('create',create), CommandHandler('city',city2)],
 
         states = {
 
