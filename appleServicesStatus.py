@@ -61,9 +61,9 @@ def sendPdf(bot,update):
 
     c.drawString(373,142,"Paris")
 
-    today = date.today()
-    c.drawString(475,142,today.strftime("%d"))
-    c.drawString(500,142,today.strftime("%m"))
+    today = datetime.datetime.now()
+    c.drawString(475,142,today.currentDT.day)
+    c.drawString(500,142,today.currentDT.month)
 
 
     logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/24px-Check_mark_9x9.svg.png')
