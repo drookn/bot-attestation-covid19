@@ -18,28 +18,86 @@ def create(bot,update):
     return NAME
 
 def name(bot,update):
-
+    user_data = update.user_data
+    user_data[name] = update.message.text
     bot.send_message(chat_id=update.effective_chat.id, text="Quelle est ta date de naissance ?")
 
     return BIRTH_DATE
 
 def birthDate(bot,update):
+    user_data = update.user_data
+    user_data[birthdate] = update.message.text
     bot.send_message(chat_id=update.effective_chat.id, text="Le n° et le nom de ta rue ? ")
 
     return STREET
 
 def street(bot,update):
+    user_data = update.user_data
+    user_data[street] = update.message.text
     bot.send_message(chat_id=update.effective_chat.id, text="Ton code postal ? 🔢")
 
     return POSTAL_CODE
 
 def postalCode(bot,update):
-    bot.send_message(chat_id=update.effective_chat.id, text="Ta ville ?  ")
+    user_data = update.user_data
+    user_data[postalCode] = update.message.text
+    bot.send_message(chat_id=update.effective_chat.id, text="Ta ville ?")
 
     return CITY
 
 def city(bot,update):
-    bot.send_message(chat_id=update.effective_chat.id, text="Thanks ")
+    user_data = update.user_data
+    user_data[city] = update.message.text
+    bot.send_message(chat_id=update.effective_chat.id, text="Thanks")
+
+
+
+    c = canvas.Canvas("hello.pdf")
+    c.drawString(130,625,user_data[name])
+    c.drawString(130,595,user_data[birthdate])
+    c.drawString(130,560,user_data[street])
+    c.drawString(130,545,user_data[postal])
+    c.drawString(130,530,user_data[city])
+
+    c.drawString(373,142,user_data[city])
+
+    today = datetime.datetime.now()
+    c.drawString(475,142,today.strftime("%d"))
+    c.drawString(500,142,today.strftime("%m"))
+
+
+    logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/24px-Check_mark_9x9.svg.png')
+
+    c.drawImage(logo, 45, 225, mask='auto')
+    c.drawImage(logo, 45, 271, mask='auto')
+    c.drawImage(logo, 45, 303, mask='auto')
+    c.drawImage(logo, 45, 348, mask='auto')
+    c.drawImage(logo, 45, 423, mask='auto')
+    c.save()
+
+
+    minutesFile = open('Ressources/certificate_of_travel_exemption.pdf', 'rb')
+    pdfReader = PyPDF2.PdfFileReader(minutesFile)
+    minutesFirstPage = pdfReader.getPage(0)
+
+    pdfWatermarkReader = PyPDF2.PdfFileReader(open('hello.pdf', 'rb'))
+    
+    minutesFirstPage.mergePage(pdfWatermarkReader.getPage(0))
+    pdfWriter = PyPDF2.PdfFileWriter()
+    pdfWriter.addPage(minutesFirstPage)
+    for pageNum in range(1, pdfReader.numPages):
+           pageObj = pdfReader.getPage(pageNum)
+           pdfWriter.addPage(pageObj)
+    resultPdfFile = open('watermarkedCover.pdf', 'wb')
+    pdfWriter.write(resultPdfFile)
+    minutesFile.close()
+    resultPdfFile.close()
+
+    bot.send_document(chat_id=update.effective_chat.id, document=open('watermarkedCover.pdf', 'rb'))
+
+
+
+    return ConversationHandler.END
 
 def cancel(bot,update):
     bot.send_message(chat_id=update.effective_chat.id, text="Cancel")
