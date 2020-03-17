@@ -14,11 +14,10 @@ NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY = range(5)
 
 def create(bot,update):
     bot.send_message(chat_id=update.effective_chat.id, text="Comment t’appelles tu ?")
-
     return NAME
 
-def name(bot,update):
-    user_data = update.user_data
+def name(update, context):
+    user_data = context.user_data
     user_data[name] = update.message.text
     bot.send_message(chat_id=update.effective_chat.id, text="Quelle est ta date de naissance ?")
 
