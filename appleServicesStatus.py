@@ -10,7 +10,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
 import datetime
 
-NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY = range(5)
+NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, SIGNATURE = range(6)
 
 def create(update, context):
     update.message.reply_text("Comment t’appelles tu ?")
@@ -69,7 +69,7 @@ def city(update, context):
     c.drawString(130,545,context.user_data['postalCode'])
     c.drawString(130,530,context.user_data['city'])
 
-    c.drawString(373,142,user_data[city])
+    c.drawString(373,142,context.user_data['city'])
 
     today = datetime.datetime.now()
     c.drawString(475,142,today.strftime("%d"))
@@ -107,6 +107,9 @@ def city(update, context):
 
 
 
+    return ConversationHandler.END
+
+def signature(update, context):
     return ConversationHandler.END
 
 def cancel(bot,update):
@@ -200,7 +203,9 @@ if __name__ == "__main__":
 
             POSTAL_CODE: [MessageHandler(Filters.text, postalCode)],
 
-            CITY: [MessageHandler(Filters.text, city)]
+            CITY: [MessageHandler(Filters.text, city)],
+
+            SIGNATURE: [MessageHandler(Filters.text, signature)]
 
         },
 
