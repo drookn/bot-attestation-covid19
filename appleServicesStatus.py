@@ -9,9 +9,7 @@ import PyPDF2
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
 import datetime
-from DBHelper import DBHelper
 
-#db = DBHelper()
 NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY = range(5)
 
 def create(bot,update):
@@ -37,6 +35,7 @@ def street(bot,update):
 
 def postalCode(bot,update):
     bot.send_message(chat_id=update.effective_chat.id, text="Ta ville ?  ")
+
     return CITY
 
 def city(bot,update):
@@ -44,12 +43,12 @@ def city(bot,update):
 
 def cancel(bot,update):
     print("cancel")
+
     return ConversationHandler.END
-    
+
 def status(bot,update):
     bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
     bot.send_document(chat_id=update.effective_chat.id, document=open('Ressources/certificate_of_travel_exemption.pdf', 'rb'))
-    #update.effective_message.reply_text(getAppleServiceStatus())
 
 def sendPdf(bot,update):
     c = canvas.Canvas("hello.pdf")
