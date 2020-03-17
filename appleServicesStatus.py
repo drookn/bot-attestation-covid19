@@ -17,11 +17,12 @@ def create(bot,update):
 
     return NAME
 
-def name(bot,update):
-    update.dispatcher.user_data['name'] = update.message.text
+def name(update, context):
+    bot.send_message(chat_id=update.effective_chat.id, text="Quelle est ta date de naissance ?")
+    text = update.message.text.lower()
+    context.user_data['choice'] = text
     #user_data = update.user_data
     #user_data[name] = update.message.text
-    bot.send_message(chat_id=update.effective_chat.id, text="Quelle est ta date de naissance ?")
 
     return BIRTH_DATE
 
