@@ -99,13 +99,13 @@ def reason(update, context):
 
     logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/24px-Check_mark_9x9.svg.png')
 
-    if text == "👩‍💻 Je vais travailler":
+    if text == "👩‍💻 Pro":
       c.drawImage(logo, 45, 423, mask='auto')
-    elif text == "🍝 Je vais faire des courses":
+    elif text == "🍗 Achats de première nécessité":
       c.drawImage(logo, 45, 348, mask='auto')
-    elif text == "💊 Je me soigne":
+    elif text == "💊 Santé":
       c.drawImage(logo, 45, 271, mask='auto')
-    elif text == "👵 Je vais voir mamie":
+    elif text == "👨‍👩‍👧‍👦 Famille":
       c.drawImage(logo, 45, 303, mask='auto')
     else:
       c.drawImage(logo, 45, 225, mask='auto')
@@ -165,9 +165,9 @@ def signature(update, context):
     foo = foo.resize((100,100),Image.ANTIALIAS)
     foo.save("signature_scaled_opt.png",optimize=True,quality=95)
 
-    custom_keyboard = [['👩‍💻 Je vais travailler', '🍝 Je vais faire des courses'], 
-                   ['💊 Je me soigne', '👵 Je vais voir mamie',
- '🐕 Je sors à proximité de mon domicile']]
+    custom_keyboard = [['👩‍💻 Pro', '🍗 Achats de première nécessité'], 
+                   ['💊 Santé', '👨‍👩‍👧‍👦 Famille',
+ '⛹️‍♂️ Sport']]
     reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
 
     TOKEN = os.getenv("TOKEN")
