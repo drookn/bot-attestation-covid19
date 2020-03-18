@@ -12,8 +12,7 @@ from reportlab.lib.utils import ImageReader
 import datetime
 from PIL import Image, ImageDraw, ImageFont
 
-NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE, NEW_ATTESTATION = range(8)
-ATTESTATION = range(1)
+NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE, NEW_ATTESTATION, ATTESTATION = range(9)
 
 
 def start(update, context):
