@@ -17,7 +17,6 @@ NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE = range(7)
 
 def start(update, context):
     update.effective_message.reply_text("Salut 👋,\nJe vais te générer une attestation de déplacement en PDF 📄 dès que tu le souhaiteras.\n Envoi /create pour démarrer.\n Envoi stop pour arrêter")
-
 def help(update, context):
     update.effective_message.reply_text("Voici la liste des commandes:\n/create - Créer une attestation\n/donate - paye moi un ☕️\n/help - Liste des commandes\n/contact - Nous contacter")
 def donate(update, context):
@@ -254,6 +253,7 @@ if __name__ == "__main__":
     dp.add_handler(CommandHandler("start",start))
     dp.add_handler(CommandHandler("donate",donate))
     dp.add_handler(CommandHandler("contact",contact))
+    dp.add_handler(CommandHandler("create",create))
     create_conversation_handler = ConversationHandler(
         entry_points = [CommandHandler('create',create)],
 
