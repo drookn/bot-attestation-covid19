@@ -131,7 +131,7 @@ def reason(update, context):
     bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
     bot.send_message(chat_id=update.effective_chat.id, 
                  text="Voici ton attestation, n'oublies pas de prendre tes précautions",
-                 reply_markup=ReplyKeyboardRemove()
+                 reply_markup=ReplyKeyboardRemove())
     bot.send_document(chat_id=update.effective_chat.id, document=open('Attestation_Deplacement.pdf', 'rb'))
     return ConversationHandler.END
 
