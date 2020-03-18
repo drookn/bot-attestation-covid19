@@ -16,10 +16,10 @@ NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE = range(7)
 
 
 def start(update, context):
-    update.effective_message.reply_text("Salut 👋,\nJe vais te générer une attestation de déplacement en PDF 📄 dès que tu le souhaiteras.\n Envoi /create pour démarrer.\n cancel pour arrêter")
+    update.effective_message.reply_text("Salut 👋,\nJe vais te générer une attestation de déplacement en PDF 📄 dès que tu le souhaiteras.\n Envoi /create pour démarrer.\n Envoi stop pour arrêter")
 
 def help(update, context):
-    update.effective_message.reply_text("Voici la liste des commandes:\n/create - Créer une attestation\n/donate - paye moi un ☕️\n/help - Liste des commandes\ncancel - Arreter l'attestation\n/contact - Nous contacter")
+    update.effective_message.reply_text("Voici la liste des commandes:\n/create - Créer une attestation\n/donate - paye moi un ☕️\n/help - Liste des commandes\n/contact - Nous contacter")
 def donate(update, context):
     update.effective_message.reply_text("Tu peux me payer un café ici : https://www.buymeacoffee.com/5PR1xt2")
 def contact(update, context):
@@ -97,9 +97,9 @@ def reason(update, context):
 
     logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/24px-Check_mark_9x9.svg.png')
 
-    if text == "👩‍🔧 Je vais bosser":
+    if text == "👩‍🔧 Je vais travailler":
       c.drawImage(logo, 45, 423, mask='auto')
-    elif text == "🍝 J’ai la dalle !":
+    elif text == "🍝 Je vais faire des courses":
       c.drawImage(logo, 45, 348, mask='auto')
     elif text == "💊 Je me soigne":
       c.drawImage(logo, 45, 271, mask='auto')
@@ -141,7 +141,7 @@ def reason(update, context):
     bot = telegram.Bot(TOKEN)
     bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
     bot.send_message(chat_id=update.effective_chat.id, 
-                 text="Voici ton attestation, n'oublies pas de prendre tes précautions",
+                 text="Voici ton attestation, n'oublies pas de prendre tes précautions!",
                  reply_markup=ReplyKeyboardRemove())
     bot.send_document(chat_id=update.effective_chat.id, document=open('Attestation_Deplacement.pdf', 'rb'))
     return ConversationHandler.END
@@ -163,9 +163,9 @@ def signature(update, context):
     foo = foo.resize((100,100),Image.ANTIALIAS)
     foo.save("signature_scaled_opt.png",optimize=True,quality=95)
 
-    custom_keyboard = [['👩‍🔧 Je vais bosser ', '🍝 J’ai la dalle !'], 
+    custom_keyboard = [['👩‍🔧 Je vais travailler', '🍝 Je vais faire des courses'], 
                    ['💊 Je me soigne', '👵 Je vais voir mamie',
- '🏌️‍♂️ Petit sport, ça s’entretient un corps pareil']]
+ '🐕 Je sors à proximité de mon domicile']]
     reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
 
     TOKEN = os.getenv("TOKEN")
