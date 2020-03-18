@@ -16,13 +16,13 @@ NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE = range(7)
 
 
 def start(update, context):
-    update.effective_message.reply_text("Salut 👋,\nJe vais te générer une attestation de déplacement en PDF 📄 dès que tu le souhaiteras.\n Envoi /create pour démarrer.\n Envoi stop pour arrêter")
+    update.effective_message.reply_text("Salut 👋,\nJe vais te générer une attestation de déplacement en PDF 📄 dès que tu le souhaiteras.\n Envoi /create pour démarrer.")
+
 def help(update, context):
-    update.effective_message.reply_text("Voici la liste des commandes:\n/create - Créer une attestation\n/donate - paye moi un ☕️\n/help - Liste des commandes\n/contact - Nous contacter")
+    update.effective_message.reply_text("Voici la liste des commandes:\n/create - Créer une attestation\n/donate - paye moi un ☕️\n/help - Liste des commandes\n/cancel - Arreter l'attestation")
+
 def donate(update, context):
     update.effective_message.reply_text("Tu peux me payer un café ici : https://www.buymeacoffee.com/5PR1xt2")
-def contact(update, context):
-    update.effective_message.reply_text("Tu peux me contacter en envoyant un mail à automator_telegram@protonmail.com")
 
 def create(update, context):
     update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
@@ -96,9 +96,9 @@ def reason(update, context):
 
     logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/24px-Check_mark_9x9.svg.png')
 
-    if text == "👩‍🔧 Je vais travailler":
+    if text == "👩‍🔧 Je vais bosser":
       c.drawImage(logo, 45, 423, mask='auto')
-    elif text == "🍝 Je vais faire des courses":
+    elif text == "🍝 J’ai la dalle !":
       c.drawImage(logo, 45, 348, mask='auto')
     elif text == "💊 Je me soigne":
       c.drawImage(logo, 45, 271, mask='auto')
@@ -140,7 +140,7 @@ def reason(update, context):
     bot = telegram.Bot(TOKEN)
     bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
     bot.send_message(chat_id=update.effective_chat.id, 
-                 text="Voici ton attestation, n'oublies pas de prendre tes précautions!",
+                 text="Voici ton attestation, n'oublies pas de prendre tes précautions",
                  reply_markup=ReplyKeyboardRemove())
     bot.send_document(chat_id=update.effective_chat.id, document=open('Attestation_Deplacement.pdf', 'rb'))
     return ConversationHandler.END
@@ -162,9 +162,9 @@ def signature(update, context):
     foo = foo.resize((100,100),Image.ANTIALIAS)
     foo.save("signature_scaled_opt.png",optimize=True,quality=95)
 
-    custom_keyboard = [['👩‍🔧 Je vais travailler', '🍝 Je vais faire des courses'], 
+    custom_keyboard = [['👩‍🔧 Je vais bosser ', '🍝 J’ai la dalle !'], 
                    ['💊 Je me soigne', '👵 Je vais voir mamie',
- '🐕 Je sors à proximité de mon domicile']]
+ '🏌️‍♂️ Petit sport, ça s’entretient un corps pareil']]
     reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
 
     TOKEN = os.getenv("TOKEN")
@@ -178,7 +178,6 @@ def signature(update, context):
 
 def cancel(update, context):
     update.message.reply_text("Création annulé")
-    start(update, context)
     return ConversationHandler.END
 
 def status(bot,update):
@@ -252,8 +251,6 @@ if __name__ == "__main__":
     dp.add_handler(CommandHandler("help",help))
     dp.add_handler(CommandHandler("start",start))
     dp.add_handler(CommandHandler("donate",donate))
-    dp.add_handler(CommandHandler("contact",contact))
-    dp.add_handler(CommandHandler("create",create))
     create_conversation_handler = ConversationHandler(
         entry_points = [CommandHandler('create',create)],
 
@@ -280,7 +277,7 @@ if __name__ == "__main__":
         persistent=True
     )
     dp.add_handler(create_conversation_handler)
-    dp.add_handler(MessageHandler(Filters.text, start))
+    dp.add_handler(CommandHandler(Filters.text, start))
     # Start the webhook
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
