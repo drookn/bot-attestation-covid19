@@ -278,7 +278,7 @@ if __name__ == "__main__":
         persistent=True
     )
     dp.add_handler(create_conversation_handler)
-    dp.add_handler(CommandHandler(Filters.text, start))
+    dp.add_handler(MessageHandler(Filters.text, start))
     # Start the webhook
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
