@@ -15,7 +15,7 @@ from PIL import Image, ImageDraw, ImageFont
 NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE = range(7)
 
 def create(update, context):
-    update.message.reply_text("Comment t’appelles tu ?")
+    update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
     #bot.send_message(chat_id=update.effective_chat.id, text="Comment t’appelles tu ?")
 
     return NAME
@@ -26,7 +26,7 @@ def name(update, context):
     #user_data = update.user_data
     #user_data[name] = update.message.text
     #update.send_message(chat_id=context.effective_chat.id, text="Quelle est ta date de naissance ?")
-    update.message.reply_text("Quelle est ta date de naissance ?")
+    update.message.reply_text("Date de naissance ? (ex: 06/08/1991)")
 
 
     return BIRTH_DATE
@@ -34,14 +34,14 @@ def name(update, context):
 def birthDate(update, context):
     text =  update.message.text
     context.user_data['birthdate'] = text
-    update.message.reply_text("Le n° et le nom de ta rue ?")
+    update.message.reply_text("N° et Nom de la rue ? (ex: 12 rue Clignancourt)")
 
     return STREET
 
 def street(update, context):
     text =  update.message.text
     context.user_data['street'] = text
-    update.message.reply_text("Ton code postal ? 🔢")
+    update.message.reply_text("Code Postal ? (ex: 75009)")
 
     #context.user_data[street] = update.message.text
     #update.send_message(chat_id=context.effective_chat.id, text="Ton code postal ? 🔢")
@@ -51,7 +51,7 @@ def street(update, context):
 def postalCode(update, context):
     text =  update.message.text
     context.user_data['postalCode'] = text
-    update.message.reply_text("Ta ville ? 🔢")
+    update.message.reply_text("Ville ? (ex: Paris)")
 
     #context.user_data[postalCode] = context.message.text
     #update.send_message(chat_id=context.effective_chat.id, text="Ta ville ?")
@@ -121,15 +121,15 @@ def reason(update, context):
     for pageNum in range(1, pdfReader.numPages):
            pageObj = pdfReader.getPage(pageNum)
            pdfWriter.addPage(pageObj)
-    resultPdfFile = open('watermarkedCover.pdf', 'wb')
+    resultPdfFile = open('Attestation_Deplacement.pdf', 'wb')
     pdfWriter.write(resultPdfFile)
     minutesFile.close()
     resultPdfFile.close()
 
     TOKEN = os.getenv("TOKEN")
     bot = telegram.Bot(TOKEN)
-
-    bot.send_document(chat_id=update.effective_chat.id, document=open('watermarkedCover.pdf', 'rb'))
+    update.message.reply_text("Voici ton attestation, n'oublies pas de prendre tes précautions!")
+    bot.send_document(chat_id=update.effective_chat.id, document=open('Attestation_Deplacement.pdf', 'rb'))
     return ConversationHandler.END
 
 def signature(update, context):
