@@ -60,19 +60,9 @@ def postalCode(update, context):
 def city(update, context):
     text =  update.message.text
     context.user_data['city'] = text
-    custom_keyboard = [['👩‍🔧 Je vais bosser ', '🍝 J’ai la dalle !'], 
-                   ['💊 Je me soigne', '👵 Je vais voir mamie',
- '🏌️‍♂️ Petit sport, ça s’entretient un corps pareil']]
-    reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
 
-    TOKEN = os.getenv("TOKEN")
-    bot = telegram.Bot(TOKEN)
-
-    bot.send_message(chat_id=update.effective_chat.id, 
-                 text="Choisit ta raison parmis ces 4 propositions", 
-                 reply_markup=reply_markup)
     #update.send_message(chat_id=context.effective_chat.id, text="Thanks")
-    return REASON
+    return SIGNATURE
 
 
 def reason(update, context):
@@ -112,6 +102,10 @@ def reason(update, context):
     #c.drawImage(logo, 45, 303, mask='auto')
     #c.drawImage(logo, 45, 348, mask='auto')
     #c.drawImage(logo, 45, 423, mask='auto')
+
+    signature = ImageReader('signature.png')
+
+    c.drawImage(signature, 45, 225, mask='auto')
     c.save()
 
 
@@ -139,7 +133,30 @@ def reason(update, context):
     return ConversationHandler.END
 
 def signature(update, context):
-    return ConversationHandler.END
+
+    #Download Image & save it
+    print("get photo")
+    img = update.message.photo[-1].file_id
+
+    TOKEN = os.getenv("TOKEN")
+    bot = telegram.Bot(TOKEN)
+
+    newFile = bot.get_file(img)
+    newFile.download('signature.png')
+
+    custom_keyboard = [['👩‍🔧 Je vais bosser ', '🍝 J’ai la dalle !'], 
+                   ['💊 Je me soigne', '👵 Je vais voir mamie',
+ '🏌️‍♂️ Petit sport, ça s’entretient un corps pareil']]
+    reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
+
+    TOKEN = os.getenv("TOKEN")
+    bot = telegram.Bot(TOKEN)
+
+    bot.send_message(chat_id=update.effective_chat.id, 
+                 text="Choisit ta raison parmis ces 5 propositions", 
+                 reply_markup=reply_markup)
+
+    return REASON
 
 def cancel(bot,update):
     bot.send_message(chat_id=update.effective_chat.id, text="Cancel")
@@ -236,7 +253,7 @@ if __name__ == "__main__":
 
             REASON: [MessageHandler(Filters.text, reason)],
 
-            SIGNATURE: [MessageHandler(Filters.text, signature)]
+            SIGNATURE: [MessageHandler(Filters.photo, signature)]
 
         },
 
