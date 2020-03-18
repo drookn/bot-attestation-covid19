@@ -25,13 +25,13 @@ def donate(update, context):
     update.effective_message.reply_text("Tu peux me payer un café ici : https://www.buymeacoffee.com/5PR1xt2")
 
 def create(update, context):
-    if context.user_data['signature']
-      return NEW_ATTESTATION
-    else:
-      update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
+    #if context.user_data['signature']
+    #  return NEW_ATTESTATION
+    #else:
+    update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
     #bot.send_message(chat_id=update.effective_chat.id, text="Comment t’appelles tu ?")
 
-      return NAME
+    return NAME
 
 def name(update, context):
     text =  update.message.text
