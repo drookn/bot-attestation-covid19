@@ -12,7 +12,7 @@ from reportlab.lib.utils import ImageReader
 import datetime
 from PIL import Image, ImageDraw, ImageFont
 
-NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE, NEW_ATTESTATION, ATTESTATION = range(9)
+NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE, NEW_ATTESTATION = range(8)
 
 
 def start(update, context):
@@ -195,91 +195,6 @@ def newAttestation(update, context):
 
     return REASON
 
-def new(update, context):
-    update.message.reply_text("Création d'une nouvelle attestation")
-    custom_keyboard = [['👩‍🔧 Je vais bosser ', '🍝 J’ai la dalle !'], 
-                   ['💊 Je me soigne', '👵 Je vais voir mamie',
- '🏌️‍♂️ Petit sport, ça s’entretient un corps pareil']]
-    reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
-
-    TOKEN = os.getenv("TOKEN")
-    bot = telegram.Bot(TOKEN)
-
-    bot.send_message(chat_id=update.effective_chat.id, 
-                 text="Choisit ta raison parmis ces 5 propositions", 
-                 reply_markup=reply_markup)
-
-    return ATTESTATION
-
-def attestation(update, context):
-    ext =  update.message.text
-    context.user_data['reason'] = text
-    #update.send_message(chat_id=context.effective_chat.id, text="Thanks")
-
-    c = canvas.Canvas("hello.pdf")
-    c.drawString(130,625,context.user_data['name'])
-    c.drawString(130,595,context.user_data['birthdate'])
-    c.drawString(130,560,context.user_data['street'])
-    c.drawString(130,545,context.user_data['postalCode'])
-    c.drawString(130,530,context.user_data['city'])
-
-    c.drawString(373,142,context.user_data['city'])
-
-    today = datetime.datetime.now()
-    c.drawString(475,142,today.strftime("%d"))
-    c.drawString(500,142,today.strftime("%m"))
-
-
-    logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/24px-Check_mark_9x9.svg.png')
-
-    if text == "👩‍🔧 Je vais bosser":
-      c.drawImage(logo, 45, 423, mask='auto')
-    elif text == "🍝 J’ai la dalle !":
-      c.drawImage(logo, 45, 348, mask='auto')
-    elif text == "💊 Je me soigne":
-      c.drawImage(logo, 45, 271, mask='auto')
-    elif text == "'👵 Je vais voir mamie'":
-      c.drawImage(logo, 45, 303, mask='auto')
-    else:
-      c.drawImage(logo, 45, 225, mask='auto')
-
-    #c.drawImage(logo, 45, 225, mask='auto')
-    #c.drawImage(logo, 45, 271, mask='auto')
-    #c.drawImage(logo, 45, 303, mask='auto')
-    #c.drawImage(logo, 45, 348, mask='auto')
-    #c.drawImage(logo, 45, 423, mask='auto')
-
-    signature = ImageReader('signature_scaled_opt.png')
-
-    c.drawImage(signature, 400, 0, mask='auto')
-    c.save()
-
-
-    minutesFile = open('Ressources/certificate_of_travel_exemption.pdf', 'rb')
-    pdfReader = PyPDF2.PdfFileReader(minutesFile)
-    minutesFirstPage = pdfReader.getPage(0)
-
-    pdfWatermarkReader = PyPDF2.PdfFileReader(open('hello.pdf', 'rb'))
-    
-    minutesFirstPage.mergePage(pdfWatermarkReader.getPage(0))
-    pdfWriter = PyPDF2.PdfFileWriter()
-    pdfWriter.addPage(minutesFirstPage)
-    for pageNum in range(1, pdfReader.numPages):
-           pageObj = pdfReader.getPage(pageNum)
-           pdfWriter.addPage(pageObj)
-    resultPdfFile = open('Attestation_Deplacement.pdf', 'wb')
-    pdfWriter.write(resultPdfFile)
-    minutesFile.close()
-    resultPdfFile.close()
-
-    TOKEN = os.getenv("TOKEN")
-    bot = telegram.Bot(TOKEN)
-    bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
-    bot.send_message(chat_id=update.effective_chat.id, 
-                 text="Voici ton attestation, n'oublies pas de prendre tes précautions",
-                 reply_markup=ReplyKeyboardRemove())
-    bot.send_document(chat_id=update.effective_chat.id, document=open('Attestation_Deplacement.pdf', 'rb'))
-    return ConversationHandler.END
 
 def cancel(update, context):
     update.message.reply_text("Création annulé")
@@ -384,21 +299,8 @@ if __name__ == "__main__":
         name="my_conversation",
         persistent=True
     )
-
-    create_conversation_handler_2 = ConversationHandler(
-        entry_points = [CommandHandler('new',new)],
-
-        states = {
-            ATTESTATION: [MessageHandler(Filters.text,attestation)]
-        },
-
-        fallbacks = [MessageHandler(Filters.regex('^Done$'), cancel)],
-        name="my_conversation_2",
-        persistent=True
-    )
     dp.add_handler(create_conversation_handler)
-    dp.add_handler(create_conversation_handler2)
-
+   
     # Start the webhook
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
