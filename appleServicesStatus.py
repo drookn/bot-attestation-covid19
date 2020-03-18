@@ -105,7 +105,7 @@ def reason(update, context):
 
     signature = ImageReader('signature_scaled_opt.png')
 
-    c.drawImage(signature, 45, 225, mask='auto')
+    c.drawImage(signature, 500, 100, mask='auto')
     c.save()
 
 
@@ -146,7 +146,7 @@ def signature(update, context):
     newFile.download('signature.png')
 
     foo = Image.open("signature.png")
-    foo = foo.resize((160,300),Image.ANTIALIAS)
+    foo = foo.resize((100,100),Image.ANTIALIAS)
     foo.save("signature_scaled_opt.png",optimize=True,quality=95)
 
     custom_keyboard = [['👩‍🔧 Je vais bosser ', '🍝 J’ai la dalle !'], 
