@@ -3,7 +3,7 @@ import os
 import requests
 import time
 import telegram
-from telegram import ReplyKeyboardMarkup, KeyboardButton
+from telegram import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler, PicklePersistence
 from fpdf import FPDF
 import PyPDF2
@@ -130,7 +130,8 @@ def reason(update, context):
     bot = telegram.Bot(TOKEN)
     bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
     bot.send_message(chat_id=update.effective_chat.id, 
-                 text="Voici ton attestation, n'oublies pas de prendre tes précautions")
+                 text="Voici ton attestation, n'oublies pas de prendre tes précautions",
+                 reply_markup=ReplyKeyboardRemove()
     bot.send_document(chat_id=update.effective_chat.id, document=open('Attestation_Deplacement.pdf', 'rb'))
     return ConversationHandler.END
 
