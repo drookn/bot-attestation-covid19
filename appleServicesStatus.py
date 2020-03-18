@@ -19,7 +19,7 @@ def start(update, context):
     update.effective_message.reply_text("Salut 👋,\nJe vais te générer une attestation de déplacement en PDF 📄 dès que tu le souhaiteras.\n Envoi /create pour démarrer.")
 
 def help(update, context):
-    update.effective_message.reply_text("Voici la liste des commandes:\n\n/create - Créer une attestation\n/donate - paye moi un ☕️\n/help - Liste des commandes\n/cancel - Arreter l'attestation")
+    update.effective_message.reply_text("Voici la liste des commandes:\n\n/create - Créer une attestation\n/donate - Payes moi un ☕️\n/help - Liste des commandes\n/cancel - Arreter l'attestation")
 
 def contact(update, context):
     update.effective_message.reply_text("Pour me contacter : attestator_telegram@protonmail.com")
@@ -73,7 +73,7 @@ def postalCode(update, context):
 def city(update, context):
     text =  update.message.text
     context.user_data['city'] = text
-    update.message.reply_text("Envoi une photo de signature sur fond blanc")
+    update.message.reply_text("Envoi moi une photo de ta signature sur fond blanc")
     #update.send_message(chat_id=context.effective_chat.id, text="Thanks")
     return SIGNATURE
 
@@ -143,7 +143,7 @@ def reason(update, context):
     bot = telegram.Bot(TOKEN)
     bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
     bot.send_message(chat_id=update.effective_chat.id, 
-                 text="Voici ton attestation, n'oublies pas de prendre tes précautions",
+                 text="Voici ton attestation, n'oublies pas de prendre tes précautions!",
                  reply_markup=ReplyKeyboardRemove())
     bot.send_document(chat_id=update.effective_chat.id, document=open('Attestation_Deplacement.pdf', 'rb'))
     return ConversationHandler.END
