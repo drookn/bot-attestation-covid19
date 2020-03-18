@@ -105,7 +105,7 @@ def reason(update, context):
 
     signature = ImageReader('signature_scaled_opt.png')
 
-    c.drawImage(signature, 500, 100, mask='auto')
+    c.drawImage(signature, 400, 0, mask='auto')
     c.save()
 
 
