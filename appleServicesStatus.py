@@ -101,11 +101,11 @@ def reason(update, context):
 
     if text == "👩‍💻 Je vais travailler":
       c.drawImage(logo, 45, 423, mask='auto')
-    elif text == "🍝 J’ai la dalle !":
+    elif text == "🍝 Je vais faire des courses":
       c.drawImage(logo, 45, 348, mask='auto')
     elif text == "💊 Je me soigne":
       c.drawImage(logo, 45, 271, mask='auto')
-    elif text == "'👵 Je vais voir mamie'":
+    elif text == "👵 Je vais voir mamie":
       c.drawImage(logo, 45, 303, mask='auto')
     else:
       c.drawImage(logo, 45, 225, mask='auto')
