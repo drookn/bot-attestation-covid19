@@ -15,13 +15,13 @@ from PIL import Image, ImageDraw, ImageFont
 NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE = range(7)
 
 
-def start(bot, update):
+def start(update, context):
     update.effective_message.reply_text("Salut 👋,\nJe vais te générer une attestation de déplacement en PDF 📄 dès que tu le souhaiteras.\nPour ça j’ai besoin que tu répondes à quelques questions.")
 
-def help(bot,update):
+def help(update, context):
     update.effective_message.reply_text("Voici la liste des commandes:\n \/help - Liste des commandes\n\/donate - paye moi un café\n\/create - Créer une attestation")
 
-def donate(bot,update):
+def donate(update, context):
     update.effective_message.reply_text("Tu peux me payer un café ici : https://www.buymeacoffee.com/5PR1xt2")
 
 def create(update, context):
@@ -248,8 +248,8 @@ if __name__ == "__main__":
     dp = updater.dispatcher
     # Add handlers
     dp.add_error_handler(error)
-    dp.add_handler(CommandHandler("help",start))
-
+    dp.add_handler(CommandHandler("help",help))
+    dp.add_handler(CommandHandler("start",start))
     create_conversation_handler = ConversationHandler(
         entry_points = [CommandHandler('create',create),CommandHandler('resend',city)],
 
