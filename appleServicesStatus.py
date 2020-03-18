@@ -272,7 +272,7 @@ if __name__ == "__main__":
 
         },
 
-        fallbacks = [MessageHandler(Filters.regex('^Done$'), cancel)]
+        fallbacks = [MessageHandler(Filters.regex('^Done$'), cancel)],
         name="my_conversation",
         persistent=True
     )
