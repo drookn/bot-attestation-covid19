@@ -3,3 +3,4 @@ requests
 FPDF
 PyPDF2
 reportlab
+pillow

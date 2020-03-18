@@ -10,6 +10,7 @@ import PyPDF2
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
 import datetime
+from PIL import Image, ImageDraw, ImageFont
 
 NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE = range(7)
 
@@ -54,13 +55,12 @@ def postalCode(update, context):
 
     #context.user_data[postalCode] = context.message.text
     #update.send_message(chat_id=context.effective_chat.id, text="Ta ville ?")
-
     return CITY
 
 def city(update, context):
     text =  update.message.text
     context.user_data['city'] = text
-
+    update.message.reply_text("Envoi une photo de signature sur fond blanc")
     #update.send_message(chat_id=context.effective_chat.id, text="Thanks")
     return SIGNATURE
 
@@ -103,7 +103,7 @@ def reason(update, context):
     #c.drawImage(logo, 45, 348, mask='auto')
     #c.drawImage(logo, 45, 423, mask='auto')
 
-    signature = ImageReader('signature.png')
+    signature = ImageReader('signature_scaled_opt.png')
 
     c.drawImage(signature, 45, 225, mask='auto')
     c.save()
@@ -142,7 +142,12 @@ def signature(update, context):
     bot = telegram.Bot(TOKEN)
 
     newFile = bot.get_file(img)
+
     newFile.download('signature.png')
+
+    foo = Image.open("signature.png")
+    foo = foo.resize((160,300),Image.ANTIALIAS)
+    foo.save("signature_scaled_opt.png",optimize=True,quality=95)
 
     custom_keyboard = [['👩‍🔧 Je vais bosser ', '🍝 J’ai la dalle !'], 
                    ['💊 Je me soigne', '👵 Je vais voir mamie',
