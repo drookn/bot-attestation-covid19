@@ -14,6 +14,16 @@ from PIL import Image, ImageDraw, ImageFont
 
 NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE = range(7)
 
+
+def start(bot, update):
+    update.effective_message.reply_text("Salut 👋,\nJe vais te générer une attestation de déplacement en PDF 📄 dès que tu le souhaiteras.\nPour ça j’ai besoin que tu répondes à quelques questions.")
+
+def help(bot,update):
+    update.effective_message.reply_text("Voici la liste des commandes:\n \/help - Liste des commandes\n\/donate - paye moi un café\n\/create - Créer une attestation")
+
+def donate(bot,update):
+    update.effective_message.reply_text("Tu peux me payer un café ici : https://www.buymeacoffee.com/5PR1xt2")
+
 def create(update, context):
     update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
     #bot.send_message(chat_id=update.effective_chat.id, text="Comment t’appelles tu ?")
@@ -175,53 +185,50 @@ def status(bot,update):
     bot.send_document(chat_id=update.effective_chat.id, document=open('Ressources/certificate_of_travel_exemption.pdf', 'rb'))
     #update.effective_message.reply_text(getAppleServiceStatus())
 
-def sendPdf(bot,update):
-    c = canvas.Canvas("hello.pdf")
-    c.drawString(130,625,"Thomas Droin De la vera")
-    c.drawString(130,595,"06/08/1991")
-    c.drawString(130,560,"9B BOULEVARD DE ROCHECHOUART")
-    c.drawString(130,545,"75009")
-    c.drawString(130,530,"PARIS")
+# def sendPdf(bot,update):
+#     c = canvas.Canvas("hello.pdf")
+#     c.drawString(130,625,"Thomas Droin De la vera")
+#     c.drawString(130,595,"06/08/1991")
+#     c.drawString(130,560,"9B BOULEVARD DE ROCHECHOUART")
+#     c.drawString(130,545,"75009")
+#     c.drawString(130,530,"PARIS")
 
-    c.drawString(373,142,"Paris")
+#     c.drawString(373,142,"Paris")
 
-    today = datetime.datetime.now()
-    c.drawString(475,142,today.strftime("%d"))
-    c.drawString(500,142,today.strftime("%m"))
-
-
-    logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/24px-Check_mark_9x9.svg.png')
-
-    c.drawImage(logo, 45, 225, mask='auto')
-    c.drawImage(logo, 45, 271, mask='auto')
-    c.drawImage(logo, 45, 303, mask='auto')
-    c.drawImage(logo, 45, 348, mask='auto')
-    c.drawImage(logo, 45, 423, mask='auto')
-    c.save()
+#     today = datetime.datetime.now()
+#     c.drawString(475,142,today.strftime("%d"))
+#     c.drawString(500,142,today.strftime("%m"))
 
 
-    minutesFile = open('Ressources/certificate_of_travel_exemption.pdf', 'rb')
-    pdfReader = PyPDF2.PdfFileReader(minutesFile)
-    minutesFirstPage = pdfReader.getPage(0)
+#     logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/24px-Check_mark_9x9.svg.png')
 
-    pdfWatermarkReader = PyPDF2.PdfFileReader(open('hello.pdf', 'rb'))
+#     c.drawImage(logo, 45, 225, mask='auto')
+#     c.drawImage(logo, 45, 271, mask='auto')
+#     c.drawImage(logo, 45, 303, mask='auto')
+#     c.drawImage(logo, 45, 348, mask='auto')
+#     c.drawImage(logo, 45, 423, mask='auto')
+#     c.save()
+
+
+#     minutesFile = open('Ressources/certificate_of_travel_exemption.pdf', 'rb')
+#     pdfReader = PyPDF2.PdfFileReader(minutesFile)
+#     minutesFirstPage = pdfReader.getPage(0)
+
+#     pdfWatermarkReader = PyPDF2.PdfFileReader(open('hello.pdf', 'rb'))
     
-    minutesFirstPage.mergePage(pdfWatermarkReader.getPage(0))
-    pdfWriter = PyPDF2.PdfFileWriter()
-    pdfWriter.addPage(minutesFirstPage)
-    for pageNum in range(1, pdfReader.numPages):
-           pageObj = pdfReader.getPage(pageNum)
-           pdfWriter.addPage(pageObj)
-    resultPdfFile = open('watermarkedCover.pdf', 'wb')
-    pdfWriter.write(resultPdfFile)
-    minutesFile.close()
-    resultPdfFile.close()
+#     minutesFirstPage.mergePage(pdfWatermarkReader.getPage(0))
+#     pdfWriter = PyPDF2.PdfFileWriter()
+#     pdfWriter.addPage(minutesFirstPage)
+#     for pageNum in range(1, pdfReader.numPages):
+#            pageObj = pdfReader.getPage(pageNum)
+#            pdfWriter.addPage(pageObj)
+#     resultPdfFile = open('watermarkedCover.pdf', 'wb')
+#     pdfWriter.write(resultPdfFile)
+#     minutesFile.close()
+#     resultPdfFile.close()
 
-    bot.send_document(chat_id=update.effective_chat.id, document=open('watermarkedCover.pdf', 'rb'))
+#     bot.send_document(chat_id=update.effective_chat.id, document=open('watermarkedCover.pdf', 'rb'))
 
-    
-def start(bot, update):
-    update.effective_message.reply_text("Salut 👋,\nJe vais te générer une attestation de déplacement en PDF 📄 dès que tu le souhaiteras.\nPour ça j’ai besoin que tu répondes à quelques questions.\nPromis une seule fois.")
 
 def error(bot, update, error):
     logger.warning('Update "%s" caused error "%s"', update, error)
@@ -240,7 +247,6 @@ if __name__ == "__main__":
     # Set up the Updater
     dp = updater.dispatcher
     # Add handlers
-    dp.add_handler(CommandHandler('sendPdf', sendPdf))
     dp.add_error_handler(error)
     dp.add_handler(CommandHandler("help",start))
 
