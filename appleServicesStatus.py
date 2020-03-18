@@ -128,7 +128,9 @@ def reason(update, context):
 
     TOKEN = os.getenv("TOKEN")
     bot = telegram.Bot(TOKEN)
-    update.message.reply_text("Voici ton attestation, n'oublies pas de prendre tes précautions!")
+    bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
+    bot.send_message(chat_id=update.effective_chat.id, 
+                 text="Voici ton attestation, n'oublies pas de prendre tes précautions")
     bot.send_document(chat_id=update.effective_chat.id, document=open('Attestation_Deplacement.pdf', 'rb'))
     return ConversationHandler.END
 
