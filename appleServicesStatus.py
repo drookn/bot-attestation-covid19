@@ -12,7 +12,7 @@ from reportlab.lib.utils import ImageReader
 import datetime
 from PIL import Image, ImageDraw, ImageFont
 
-NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE, NEW_ATTESTATION = range(8)
+NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE = range(7)
 
 
 def start(update, context):
@@ -25,9 +25,6 @@ def donate(update, context):
     update.effective_message.reply_text("Tu peux me payer un café ici : https://www.buymeacoffee.com/5PR1xt2")
 
 def create(update, context):
-    #if context.user_data['signature']
-    #  return NEW_ATTESTATION
-    #else:
     update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
     #bot.send_message(chat_id=update.effective_chat.id, text="Comment t’appelles tu ?")
 
@@ -179,23 +176,6 @@ def signature(update, context):
 
     return REASON
 
-
-def newAttestation(update, context):
-    custom_keyboard = [['👩‍🔧 Je vais bosser ', '🍝 J’ai la dalle !'], 
-                   ['💊 Je me soigne', '👵 Je vais voir mamie',
- '🏌️‍♂️ Petit sport, ça s’entretient un corps pareil']]
-    reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
-
-    TOKEN = os.getenv("TOKEN")
-    bot = telegram.Bot(TOKEN)
-
-    bot.send_message(chat_id=update.effective_chat.id, 
-                 text="Choisit ta raison parmis ces 5 propositions", 
-                 reply_markup=reply_markup)
-
-    return REASON
-
-
 def cancel(update, context):
     update.message.reply_text("Création annulé")
     return ConversationHandler.END
@@ -271,9 +251,8 @@ if __name__ == "__main__":
     dp.add_handler(CommandHandler("help",help))
     dp.add_handler(CommandHandler("start",start))
     dp.add_handler(CommandHandler("donate",donate))
-    dp.add_handler(CommandHandler("new",new))
     create_conversation_handler = ConversationHandler(
-        entry_points = [CommandHandler('create',create),CommandHandler('signature',signature)],
+        entry_points = [CommandHandler('create',create)],
 
         states = {
 
@@ -289,13 +268,11 @@ if __name__ == "__main__":
 
             REASON: [MessageHandler(Filters.text, reason)],
 
-            NEW_ATTESTATION: [MessageHandler(Filters.text, newAttestation)],
-
             SIGNATURE: [MessageHandler(Filters.photo, signature)]
 
         },
 
-        fallbacks = [MessageHandler(Filters.regex('^Done$'), cancel)],
+        fallbacks = [MessageHandler(Filters.regex('^Done$'), cancel)]
         name="my_conversation",
         persistent=True
     )
