@@ -390,8 +390,7 @@ if __name__ == "__main__":
         entry_points = [CommandHandler('new',new)],
 
         states = {
-
-            ATTESTATION: [MessageHandler(Filters.text,attestation)],
+            ATTESTATION: [MessageHandler(Filters.text,attestation)]
         },
 
         fallbacks = [MessageHandler(Filters.regex('^Done$'), cancel)],
