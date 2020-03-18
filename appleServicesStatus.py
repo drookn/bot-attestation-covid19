@@ -16,10 +16,10 @@ NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE = range(7)
 
 
 def start(update, context):
-    update.effective_message.reply_text("Salut 👋,\nJe vais te générer une attestation de déplacement en PDF 📄 dès que tu le souhaiteras.\nPour ça j’ai besoin que tu répondes à quelques questions.")
+    update.effective_message.reply_text("Salut 👋,\nJe vais te générer une attestation de déplacement en PDF 📄 dès que tu le souhaiteras.\n Envoi /create pour démarrer.")
 
 def help(update, context):
-    update.effective_message.reply_text("Voici la liste des commandes:\n \/help - Liste des commandes\n\/donate - paye moi un café\n\/create - Créer une attestation")
+    update.effective_message.reply_text("Voici la liste des commandes:\n/donate - paye moi un ☕️\n/create - Créer une attestation\n/help - Liste des commandes")
 
 def donate(update, context):
     update.effective_message.reply_text("Tu peux me payer un café ici : https://www.buymeacoffee.com/5PR1xt2")
