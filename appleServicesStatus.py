@@ -178,6 +178,7 @@ def signature(update, context):
 
 def cancel(update, context):
     update.message.reply_text("Création annulé")
+    start(update, context)
     return ConversationHandler.END
 
 def status(bot,update):
@@ -272,12 +273,12 @@ if __name__ == "__main__":
 
         },
 
-        fallbacks = [MessageHandler(Filters.regex('^Done$'), cancel)],
+        fallbacks = [MessageHandler(Filters.regex('^Stop$'), cancel)],
         name="my_conversation",
         persistent=True
     )
     dp.add_handler(create_conversation_handler)
-   
+    dp.add_handler(CommandHandler(Filters.text, start))
     # Start the webhook
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
