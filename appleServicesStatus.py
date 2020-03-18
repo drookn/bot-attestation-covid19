@@ -19,7 +19,10 @@ def start(update, context):
     update.effective_message.reply_text("Salut 👋,\nJe vais te générer une attestation de déplacement en PDF 📄 dès que tu le souhaiteras.\n Envoi /create pour démarrer.")
 
 def help(update, context):
-    update.effective_message.reply_text("Voici la liste des commandes:\n/create - Créer une attestation\n/donate - paye moi un ☕️\n/help - Liste des commandes\n/cancel - Arreter l'attestation")
+    update.effective_message.reply_text("Voici la liste des commandes:\n\n/create - Créer une attestation\n/donate - paye moi un ☕️\n/help - Liste des commandes\n/cancel - Arreter l'attestation")
+
+def contact(update, context):
+    update.effective_message.reply_text("Pour me contacter : attestator_telegram@protonmail.com")
 
 def donate(update, context):
     update.effective_message.reply_text("Tu peux me payer un café ici : https://www.buymeacoffee.com/5PR1xt2")
