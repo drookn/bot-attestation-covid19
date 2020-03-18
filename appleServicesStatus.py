@@ -252,7 +252,7 @@ if __name__ == "__main__":
     dp.add_handler(CommandHandler("start",start))
     dp.add_handler(CommandHandler("donate",donate))
     create_conversation_handler = ConversationHandler(
-        entry_points = [CommandHandler('create',create),CommandHandler('resend',city)],
+        entry_points = [CommandHandler('create',create),CommandHandler('cancel',cancel)],
 
         states = {
 
