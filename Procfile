@@ -1,1 +1,1 @@
-web: python appleServicesStatus.py
+web: python attestator.py
