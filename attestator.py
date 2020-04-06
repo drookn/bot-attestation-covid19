@@ -130,7 +130,7 @@ def createQRcode(reason):
 	)
 	today = datetime.datetime.now()
 	# The data that you want to store
-	data = "Cree le:"+ today.strftime("%d") + ";Nom: " + context.user_data['name'] + "Naissance:" + context.user_data['birthdate'] + "Adresse:" + context.user_data['street'] + "Motifs:" + context.user_data['reason']
+	data = "Cree le:"+ today.strftime("%d") + ";Nom: " + str(context.user_data['name']) + "Naissance:" + str(context.user_data['birthdate']) + "Adresse:" + str(context.user_data['street']) + "Motifs:" + str(reason)
 
 	# Add data
 	qr.add_data(data)
