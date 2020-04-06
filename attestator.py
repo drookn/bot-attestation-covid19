@@ -16,7 +16,7 @@ from reportlab.lib.utils import ImageReader
 from PIL import Image, ImageDraw, ImageFont
 
 # Conversation states handlers
-NAME, BIRTH_DATE, BORN_PLACE, STREET, POSTAL_CODE, CITY, REASON = range(7)
+NAME, BIRTH_DATE, BORN_PLACE, STREET, POSTAL_CODE, CITY, REASON, MOTIF = range(8)
 
 # Command handlers
 def start(update, context):
@@ -46,7 +46,7 @@ def error(bot, update, error):
 def create(update, context):
 	if context.user_data:
 		update.message.reply_text("J'ai déja enregistrer tes informations!")
-		return CITY
+		return MOTIF
 	else:
 		update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
 		return NAME
@@ -78,6 +78,20 @@ def postalCode(update, context):
 
 def city(update, context):
     context.user_data['city'] = update.message.text
+    TOKEN = os.getenv("TOKEN")
+    bot = telegram.Bot(TOKEN)
+  
+    # Create Custom reply
+    custom_keyboard = [['travail', 'courses'], 
+                   ['santé', 'famille'],
+ ['sport', 'judiciaire', 'missions']]
+    reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
+    bot.send_message(chat_id=update.effective_chat.id, 
+                 text="Choisis ton motif:", 
+                 reply_markup=reply_markup)
+    return REASON
+
+def motif(update, context):
     TOKEN = os.getenv("TOKEN")
     bot = telegram.Bot(TOKEN)
   
@@ -257,7 +271,9 @@ if __name__ == "__main__":
 
             CITY: [MessageHandler(Filters.text, city)],
 
-            REASON: [MessageHandler(Filters.text, reason)]
+            REASON: [MessageHandler(Filters.text, reason)],
+
+            MOTIF: [MessageHandler(None,motif)]
         },
         fallbacks = [MessageHandler(Filters.regex('^Stop$'), cancel)],
         name="attestation_conversation",
