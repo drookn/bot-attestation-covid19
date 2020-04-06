@@ -41,8 +41,17 @@ def error(bot, update, error):
 # Conversation handlers methods
 def create(update, context):
 	if context.user_data:
-		update.message.reply_text("Not Empty")
-		return ConversationHandler.END
+		update.message.reply_text("J'ai déja enregistrer tes informations")
+    	TOKEN = os.getenv("TOKEN")
+    	bot = telegram.Bot(TOKEN)
+  
+    	# Create Custom reply
+    	custom_keyboard = [['travail', 'courses'], ['santé', 'famille'],['sport', 'judiciaire', 'missions']]
+    	reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
+    	bot.send_message(chat_id=update.effective_chat.id, 
+                 text="Choisis ton motif:", 
+                 reply_markup=reply_markup)
+		return REASON
 	else:
 		update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
 		return NAME
@@ -87,7 +96,6 @@ def city(update, context):
                  reply_markup=reply_markup)
     return REASON
 
-
 def reason(update, context):
     context.user_data['reason'] = update.message.text
     TOKEN = os.getenv("TOKEN")
@@ -96,7 +104,7 @@ def reason(update, context):
     # createPdf(context.user_data['reason'])
     createQRcode(context,context.user_data['reason'])
     bot.send_message(chat_id=update.effective_chat.id, 
-                 text="Voici ton qrCode, n'oublies pas de prendre tes précautions!",
+                 text="Voici ton QRcode, n'oublies pas de prendre tes précautions!",
                  reply_markup=ReplyKeyboardRemove())
     bot.send_photo(chat_id=update.effective_chat.id, photo=open('qrcode.jpg', 'rb'))
     return ConversationHandler.END
