@@ -47,6 +47,7 @@ def create(update, context):
 	if context.user_data:
 		update.message.reply_text("J'ai déja enregistrer tes informations!")
 		motif(update,context)
+		return REASON
 	else:
 		update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
 		return NAME
@@ -273,7 +274,7 @@ if __name__ == "__main__":
 
             REASON: [MessageHandler(Filters.text, reason)],
 
-            MOTIF: [MessageHandler(None,motif)]
+            MOTIF: [MessageHandler(Filters.update.*,motif)]
         },
         fallbacks = [MessageHandler(Filters.regex('^Stop$'), cancel)],
         name="attestation_conversation",
