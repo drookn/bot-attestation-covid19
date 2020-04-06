@@ -274,7 +274,7 @@ if __name__ == "__main__":
 
             REASON: [MessageHandler(Filters.text, reason)],
 
-            MOTIF: [MessageHandler(Filters.update.*,motif)]
+            MOTIF: [Handler(motif)]
         },
         fallbacks = [MessageHandler(Filters.regex('^Stop$'), cancel)],
         name="attestation_conversation",
