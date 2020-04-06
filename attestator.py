@@ -46,7 +46,7 @@ def error(bot, update, error):
 def create(update, context):
 	if context.user_data:
 		update.message.reply_text("J'ai déja enregistrer tes informations!")
-		return MOTIF
+		motif(update,context)
 	else:
 		update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
 		return NAME
