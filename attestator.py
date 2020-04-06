@@ -9,7 +9,7 @@ import qrcode
 
 
 from telegram import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler, PicklePersistence
+from telegram.ext import Updater, CommandHandler, Handler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler, PicklePersistence
 from fpdf import FPDF
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
