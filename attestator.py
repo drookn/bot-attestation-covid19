@@ -5,6 +5,8 @@ import time
 import telegram
 import PyPDF2
 import datetime
+import qrcode
+
 
 from telegram import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackQueryHandler, PicklePersistence

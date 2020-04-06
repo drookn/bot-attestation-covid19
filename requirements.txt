@@ -4,3 +4,4 @@ FPDF
 PyPDF2
 reportlab
 pillow
+qrcode
