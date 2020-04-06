@@ -89,38 +89,38 @@ def reason(update, context):
     bot = telegram.Bot(TOKEN)
     bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
     # createPdf(context.user_data['reason'])
-    createQRcode(context.user_data['reason'])
+    createQRcode(context,context.user_data['reason'])
     bot.send_message(chat_id=update.effective_chat.id, 
                  text="Voici ton qrCode, n'oublies pas de prendre tes précautions!",
                  reply_markup=ReplyKeyboardRemove())
     bot.send_document(chat_id=update.effective_chat.id, document=open('qrcode.jpg', 'rb'))
     return ConversationHandler.END
 
-def signature(update, context):
-    TOKEN = os.getenv("TOKEN")
-    bot = telegram.Bot(TOKEN)
-    #Download Image & save it
-    img = update.message.photo[-1].file_id
-    newFile = bot.get_file(img)
-    newFile.download('signature.png')
+# def signature(update, context):
+#     TOKEN = os.getenv("TOKEN")
+#     bot = telegram.Bot(TOKEN)
+#     #Download Image & save it
+#     img = update.message.photo[-1].file_id
+#     newFile = bot.get_file(img)
+#     newFile.download('signature.png')
 
-    # Resizing image
-    imageOpen = Image.open("signature.png")
-    imageOpen = foo.resize((100,100),Image.ANTIALIAS)
-    imageOpen.save("signature_scaled_opt.png",optimize=True,quality=95)
+#     # Resizing image
+#     imageOpen = Image.open("signature.png")
+#     imageOpen = foo.resize((100,100),Image.ANTIALIAS)
+#     imageOpen.save("signature_scaled_opt.png",optimize=True,quality=95)
 
-    # Create Custom reply
-    custom_keyboard = [['👩‍💻 Pro', '🍗 Achats de première nécessité'], 
-                   ['💊 Santé', '👨‍👩‍👧‍👦 Famille',
- '⛹️‍♂️ Sport']]
-    reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
-    bot.send_message(chat_id=update.effective_chat.id, 
-                 text="Choisit ton motif:", 
-                 reply_markup=reply_markup)
-    return REASON
+#     # Create Custom reply
+#     custom_keyboard = [['👩‍💻 Pro', '🍗 Achats de première nécessité'], 
+#                    ['💊 Santé', '👨‍👩‍👧‍👦 Famille',
+#  '⛹️‍♂️ Sport']]
+#     reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
+#     bot.send_message(chat_id=update.effective_chat.id, 
+#                  text="Choisit ton motif:", 
+#                  reply_markup=reply_markup)
+#     return REASON
 
 
-def createQRcode(reason):
+def createQRcode(context,reason):
 	# Create qr code instance
 	qr = qrcode.QRCode(
 	    version = 1,
@@ -130,7 +130,7 @@ def createQRcode(reason):
 	)
 	today = datetime.datetime.now()
 	# The data that you want to store
-	data = "Cree le:"+ today.strftime("%d") + ";Nom: " + str(context.user_data['name']) + "Naissance:" + str(context.user_data['birthdate']) + "Adresse:" + str(context.user_data['street']) + "Motifs:" + str(reason)
+	data = "Cree le:" + today.strftime("%d") + ";Nom: " + str(context.user_data['name']) + "Naissance:" + str(context.user_data['birthdate']) + "Adresse:" + str(context.user_data['street']) + "Motifs:" + str(reason)
 
 	# Add data
 	qr.add_data(data)
