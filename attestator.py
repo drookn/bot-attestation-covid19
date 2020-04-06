@@ -40,8 +40,12 @@ def error(bot, update, error):
 
 # Conversation handlers methods
 def create(update, context):
+	if not context.user_data['name']:
     update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
     return NAME
+	else:
+	update.message.reply_text("Not Empty")
+    return ConversationHandler.END
 
 def name(update, context):
     context.user_data['name'] = update.message.text
@@ -213,13 +217,16 @@ if __name__ == "__main__":
     TOKEN = os.getenv("TOKEN")
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME")
     PORT = os.environ.get('PORT')
+
+    my_persistence = PicklePersistence(filename='persistence')
+
     # Enable logging
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                         level=logging.INFO)
     logger = logging.getLogger(__name__)
     # Setup persistence
     pp = PicklePersistence(filename='conversationbot')
-    updater = Updater(TOKEN, persistence=pp, use_context=True)
+    updater = Updater(TOKEN, persistence=my_persistence, use_context=True)
     # Set up the Updater
     dp = updater.dispatcher
     # Add handlers
