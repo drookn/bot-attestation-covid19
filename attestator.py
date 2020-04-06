@@ -40,12 +40,12 @@ def error(bot, update, error):
 
 # Conversation handlers methods
 def create(update, context):
-	 if not context.user_data['name']:
-      update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
-      return NAME
+	if not context.user_data['name']:
+		update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
+		return NAME
 	else:
-	  update.message.reply_text("Not Empty")
-      return ConversationHandler.END
+		update.message.reply_text("Not Empty")
+		return ConversationHandler.END
 
 def name(update, context):
     context.user_data['name'] = update.message.text
@@ -136,7 +136,7 @@ def createQRcode(context,reason):
 	today = datetime.datetime.now()
 	# The data that you want to store
 	
-	data = "Cree le:" + today.strftime("%d") + "/" + today.strftime("%m") + "/" + today.strftime("%Y") + " a "+ today.strftime("%H") + "h" + today.strftime("%M") + "; Nom: " + str(context.user_data['name']) + "; Naissance: " + str(context.user_data['birthdate']) + "; Adresse: " + str(context.user_data['street']) + " " + str(context.user_data['postalCode']) + " " + str(context.user_data['city']) + "; Sortie: " + today.strftime("%d") + "/" + today.strftime("%m") + "/" + today.strftime("%Y") + " a "+ today.strftime("%H") + "h" + today.strftime("%M") + "; Motifs:" + str(reason)
+	data = "Cree le: " + today.strftime("%d") + "/" + today.strftime("%m") + "/" + today.strftime("%Y") + " a "+ today.strftime("%H") + "h" + today.strftime("%M") + "; Nom: " + str(context.user_data['name']) + "; Naissance: " + str(context.user_data['birthdate']) + "; Adresse: " + str(context.user_data['street']) + " " + str(context.user_data['postalCode']) + " " + str(context.user_data['city']) + "; Sortie: " + today.strftime("%d") + "/" + today.strftime("%m") + "/" + today.strftime("%Y") + " a "+ today.strftime("%H") + "h" + today.strftime("%M") + "; Motifs:" + str(reason)
 
 	# Add data
 	qr.add_data(data)
