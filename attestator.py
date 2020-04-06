@@ -40,12 +40,12 @@ def error(bot, update, error):
 
 # Conversation handlers methods
 def create(update, context):
-	if not context.user_data['name']:
-		update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
-		return NAME
-	else:
+	if context.user_data:
 		update.message.reply_text("Not Empty")
 		return ConversationHandler.END
+	else:
+		update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
+		return NAME
 
 def name(update, context):
     context.user_data['name'] = update.message.text
