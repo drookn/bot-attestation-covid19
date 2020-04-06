@@ -32,8 +32,14 @@ def donate(update, context):
     update.effective_message.reply_text("Tu peux me payer un café ici : https://www.buymeacoffee.com/5PR1xt2")
 
 def reset(update, context):
-	del context.user_data
 	update.effective_message.reply_text("Tes données ont été supprimées! Tape /create pour démarrer une nouvelle création")
+	del context.user_data['name']
+	del context.user_data['birthdate']
+	del context.user_data['bornPlace']
+	del context.user_data['street']
+	del context.user_data['postalCode']
+	del context.user_data['city']
+	del context.user_data['reason']
 
 def cancel(update, context):
     update.message.reply_text("Création annulé")
