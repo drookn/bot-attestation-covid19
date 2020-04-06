@@ -41,11 +41,11 @@ def error(bot, update, error):
 # Conversation handlers methods
 def create(update, context):
 	if not context.user_data['name']:
-    update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
-    return NAME
+    	update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
+    	return NAME
 	else:
-	update.message.reply_text("Not Empty")
-    return ConversationHandler.END
+		update.message.reply_text("Not Empty")
+    	return ConversationHandler.END
 
 def name(update, context):
     context.user_data['name'] = update.message.text
