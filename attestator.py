@@ -31,6 +31,10 @@ def contact(update, context):
 def donate(update, context):
     update.effective_message.reply_text("Tu peux me payer un café ici : https://www.buymeacoffee.com/5PR1xt2")
 
+def reset(update, context):
+	del context.user_data
+	update.effective_message.reply_text("Tes données ont été supprimées! Tape /create pour démarrer une nouvelle création")
+
 def cancel(update, context):
     update.message.reply_text("Création annulé")
     return ConversationHandler.END
@@ -242,6 +246,7 @@ if __name__ == "__main__":
     dp.add_handler(CommandHandler("help",help))
     dp.add_handler(CommandHandler("start",start))
     dp.add_handler(CommandHandler("donate",donate))
+    dp.add_handler(CommandHandler("reset",reset))
     dp.add_handler(CommandHandler("contact",contact))
     # Create conversation handler
     create_conversation_handler = ConversationHandler(
