@@ -94,7 +94,7 @@ def reason(update, context):
     bot.send_message(chat_id=update.effective_chat.id, 
                  text="Voici ton qrCode, n'oublies pas de prendre tes précautions!",
                  reply_markup=ReplyKeyboardRemove())
-    bot.send_document(chat_id=update.effective_chat.id, document=open('qrcode.jpg', 'rb'))
+    bot.send_photo(chat_id=update.effective_chat.id, photo=open('qrcode.jpg', 'rb'))
     return ConversationHandler.END
 
 # def signature(update, context):
@@ -132,7 +132,7 @@ def createQRcode(context,reason):
 	today = datetime.datetime.now()
 	# The data that you want to store
 	
-	data = "Cree le:" + today.strftime("%d") + "/" + today.strftime("%m") + "/" + today.strftime("%Y") + " a "+ today.strftime("%H") + "h" + today.strftime("%M") + ";Nom: " + str(context.user_data['name']) + ";Naissance: " + str(context.user_data['birthdate']) + ";Adresse: " + str(context.user_data['street']) + " " + str(context.user_data['postalCode']) + " " + str(context.user_data['city']) + ";Sortie: " + today.strftime("%d") + "/" + today.strftime("%m") + "/" + today.strftime("%Y") + " a "+ today.strftime("%H") + "h" + today.strftime("%M") + "Motifs:" + str(reason)
+	data = "Cree le:" + today.strftime("%d") + "/" + today.strftime("%m") + "/" + today.strftime("%Y") + " a "+ today.strftime("%H") + "h" + today.strftime("%M") + "; Nom: " + str(context.user_data['name']) + "; Naissance: " + str(context.user_data['birthdate']) + "; Adresse: " + str(context.user_data['street']) + " " + str(context.user_data['postalCode']) + " " + str(context.user_data['city']) + "; Sortie: " + today.strftime("%d") + "/" + today.strftime("%m") + "/" + today.strftime("%Y") + " a "+ today.strftime("%H") + "h" + today.strftime("%M") + "; Motifs:" + str(reason)
 
 	# Add data
 	qr.add_data(data)
