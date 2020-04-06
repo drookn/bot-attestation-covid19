@@ -14,7 +14,7 @@ from reportlab.lib.utils import ImageReader
 from PIL import Image, ImageDraw, ImageFont
 
 # Conversation states handlers
-NAME, BIRTH_DATE, STREET, POSTAL_CODE, CITY, REASON, SIGNATURE = range(7)
+NAME, BIRTH_DATE, BORN_PLACE, STREET, POSTAL_CODE, CITY, REASON = range(7)
 
 # Command handlers
 def start(update, context):
@@ -48,6 +48,11 @@ def name(update, context):
 
 def birthDate(update, context):
     context.user_data['birthdate'] = update.message.text
+    update.message.reply_text("Lieu de naissance ?")
+    return BORN_PLACE
+
+def bornPlace(update, context):
+    context.user_data['bornPlace'] = update.message.text
     update.message.reply_text("N° et Nom de la rue ? (ex: 12 rue Clignancourt)")
     return STREET
 
@@ -62,9 +67,18 @@ def postalCode(update, context):
     return CITY
 
 def city(update, context):
-    context.user_data['city'] = update.message.text
-    update.message.reply_text("Envoi moi une photo de ta signature sur fond blanc")
-    return SIGNATURE
+    TOKEN = os.getenv("TOKEN")
+    bot = telegram.Bot(TOKEN)
+  
+    # Create Custom reply
+    custom_keyboard = [['👩‍💻 Travail', '🍗 Courses'], 
+                   ['💊 Santé', '👨‍👩‍👧‍👦 Famille'],
+ ['⛹️‍♂️ Sport', 'Judiciaire', 'Missions']]
+    reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
+    bot.send_message(chat_id=update.effective_chat.id, 
+                 text="Choisis ton motif:", 
+                 reply_markup=reply_markup)
+    return REASON
 
 
 def reason(update, context):
@@ -72,11 +86,12 @@ def reason(update, context):
     TOKEN = os.getenv("TOKEN")
     bot = telegram.Bot(TOKEN)
     bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.ChatAction.TYPING)
-    createPdf(context.user_data['reason'])
+    # createPdf(context.user_data['reason'])
+    createQRcode(context.user_data['reason'])
     bot.send_message(chat_id=update.effective_chat.id, 
-                 text="Voici ton attestation, n'oublies pas de prendre tes précautions!",
+                 text="Voici ton qrCode, n'oublies pas de prendre tes précautions!",
                  reply_markup=ReplyKeyboardRemove())
-    bot.send_document(chat_id=update.effective_chat.id, document=open('Attestation_Deplacement.pdf', 'rb'))
+    bot.send_document(chat_id=update.effective_chat.id, document=open('qrcode.jpg', 'rb'))
     return ConversationHandler.END
 
 def signature(update, context):
@@ -102,6 +117,33 @@ def signature(update, context):
                  reply_markup=reply_markup)
     return REASON
 
+
+def createQRcode(reason):
+	# Create qr code instance
+	qr = qrcode.QRCode(
+	    version = 1,
+	    error_correction = qrcode.constants.ERROR_CORRECT_H,
+	    box_size = 10,
+	    border = 4,
+	)
+	today = datetime.datetime.now()
+	# The data that you want to store
+	data = "Cree le:"+ today.strftime("%d") + ";Nom: " + context.user_data['name'] + "Naissance:" + context.user_data['birthdate'] + "Adresse:" + context.user_data['street'] + "Motifs:" + context.user_data['reason']
+
+	# Add data
+	qr.add_data(data)
+	qr.make(fit=True)
+
+	# Create an image from the QR Code instance
+	img = qr.make_image()
+
+	# Save it somewhere, change the extension as needed:
+	# img.save("image.png")
+	# img.save("image.bmp")
+	# img.save("image.jpeg")
+	img.save("qrcode.jpg")
+
+
 def createPdf(reason):
 
     # Create Canva
@@ -126,9 +168,9 @@ def createPdf(reason):
     check_mark_logo = ImageReader('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Check_mark_9x9.svg/24px-Check_mark_9x9.svg.png')
 
     # Write check mark on Pdf file
-    if reason == "👩‍💻 Pro":
+    if reason == "👩‍💻 Travail":
       c.drawImage(check_mark_logo, 45, 423, mask='auto')
-    elif reason == "🍗 Achats de première nécessité":
+    elif reason == "🍗 Courses":
       c.drawImage(check_mark_logo, 45, 348, mask='auto')
     elif reason == "💊 Santé":
       c.drawImage(check_mark_logo, 45, 271, mask='auto')
@@ -192,16 +234,15 @@ if __name__ == "__main__":
 
             BIRTH_DATE: [MessageHandler(Filters.text, birthDate)],
 
+            BORN_PLACE: [MessageHandler(Filters.text, bornPlace)],
+
             STREET: [MessageHandler(Filters.text, street)],
 
             POSTAL_CODE: [MessageHandler(Filters.text, postalCode)],
 
             CITY: [MessageHandler(Filters.text, city)],
 
-            REASON: [MessageHandler(Filters.text, reason)],
-
-            SIGNATURE: [MessageHandler(Filters.photo, signature)]
-
+            REASON: [MessageHandler(Filters.text, reason)]
         },
         fallbacks = [MessageHandler(Filters.regex('^Stop$'), cancel)],
         name="attestation_conversation",
