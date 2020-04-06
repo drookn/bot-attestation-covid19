@@ -45,17 +45,8 @@ def error(bot, update, error):
 # Conversation handlers methods
 def create(update, context):
 	if context.user_data:
-		update.message.reply_text("J'ai déja enregistrer tes informations")
-    	TOKEN = os.getenv("TOKEN")
-    	bot = telegram.Bot(TOKEN)
-  
-    	# Create Custom reply
-    	custom_keyboard = [['travail', 'courses'], ['santé', 'famille'],['sport', 'judiciaire', 'missions']]
-    	reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
-    	bot.send_message(chat_id=update.effective_chat.id, 
-                 text="Choisis ton motif:", 
-                 reply_markup=reply_markup)
-		return REASON
+		update.message.reply_text("J'ai déja enregistrer tes informations!")
+		return CITY
 	else:
 		update.message.reply_text("Prénom Nom ? (ex: Thomas Martin)")
 		return NAME
